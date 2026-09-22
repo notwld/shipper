@@ -14,16 +14,20 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__,static_folder="assets",template_folder="templates")
-   
+    on_vercel = bool(os.getenv('VERCEL'))
+
     mail = Mail()
     migrate = Migrate(app, db)
     stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+    # Vercel filesystem is read-only except /tmp
+    db_uri = 'sqlite:////tmp/app.db' if on_vercel else 'sqlite:///app.db'
+    upload_folder = '/tmp/uploads' if on_vercel else os.path.join('static', 'uploads')
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'your_secret_key_here'
-    app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key_here' 
-    app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), 'public/uploads')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_secret_key_here')
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'your_jwt_secret_key_here')
     app.config['MAIL_SERVER'] = os.getenv('MAIL_HOST')
     app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
@@ -31,14 +35,20 @@ def create_app():
     app.config['MAIL_USE_TLS'] = os.getenv('MAIL_ENCRYPTION') == 'tls'
     app.config['MAIL_USE_SSL'] = os.getenv('MAIL_ENCRYPTION') == 'ssl'
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
-    app.config['MAX_CONTENT_LENGTH'] = 25 * 1024 * 1024 
-    app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-    
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) 
-    
+    app.config['MAX_CONTENT_LENGTH'] = 25 * 1024 * 1024
+    app.config['UPLOAD_FOLDER'] = upload_folder
+
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+    cors_origins = ["*"] if on_vercel else [
+        "https://bemyshipper.com",
+        "https://stage.bemyshipper.com",
+        "http://stage.bemyshipper.com",
+        "http://127.0.0.1:5087",
+    ]
     CORS(app, resources={
         r"/*": {
-            "origins": ["https://bemyshipper.com","https://stage.bemyshipper.com", "http://stage.bemyshipper.com","http://127.0.0.1:5087"],
+            "origins": cors_origins,
             "allow_headers": ["Content-Type"],
             "methods": ["GET", "POST", "OPTIONS"]
         }
@@ -46,35 +56,46 @@ def create_app():
 
     socketio = SocketIO(
         app,
-        cors_allowed_origins=["https://bemyshipper.com","https://stage.bemyshipper.com", "http://stage.bemyshipper.com","http://127.0.0.1:5087"],
+        cors_allowed_origins="*" if on_vercel else cors_origins,
         async_mode='threading',
         ping_timeout=60,
         ping_interval=25,
-        logger=True,
-        engineio_logger=True
+        logger=not on_vercel,
+        engineio_logger=not on_vercel,
     )
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
     mail.init_app(app)
-    
-    if not os.path.exists(app.config['UPLOAD_FOLDER']):
-        os.makedirs(app.config['UPLOAD_FOLDER'])
-
     db.init_app(app)
 
     with app.app_context():
         db.create_all()
-       
+        # Showcase seed so the demo is usable without local main.py bootstrap
+        if on_vercel and not User.query.filter_by(email="admin@bemyshipper.com").first():
+            admin = User(
+                first_name="Cellou",
+                last_name="Tounkara",
+                email="admin@bemyshipper.com",
+                phone="+1234567890",
+                role="admin",
+                isEmailVerified=True,
+                isAccountVerified=True,
+                hasVerifiedBadge=True,
+            )
+            admin.set_password("okok123123")
+            db.session.add(admin)
+            db.session.commit()
+
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
-    
+
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
-    
+
     init_routes(app)
 
-    return app,socketio
+    return app, socketio

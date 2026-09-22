@@ -1,0 +1,9 @@
+.venv
+.env
+__pycache__
+**/__pycache__
+instance
+.git
+*.pyc
+.cursor
+agent-transcripts
