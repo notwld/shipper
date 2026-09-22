@@ -7,3 +7,7 @@ instance
 *.pyc
 .cursor
 agent-transcripts
+# Avoid uv/pyproject path — install from requirements.txt only
+pyproject.toml
+poetry.lock
+uv.lock

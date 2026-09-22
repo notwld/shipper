@@ -3,7 +3,7 @@
   "functions": {
     "app.py": {
       "maxDuration": 60,
-      "excludeFiles": "{.venv/**,__pycache__/**,**/__pycache__/**,.git/**,instance/**,migrations/**,**/*.pyc}"
+      "excludeFiles": "{.venv/**,__pycache__/**,**/__pycache__/**,.git/**,instance/**,migrations/**,**/*.pyc,assets/scss/**,assets/vendor/**/*.map}"
     }
   }
 }
