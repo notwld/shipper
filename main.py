@@ -1,10 +1,10 @@
-from __init__ import create_app
+from application import create_app, socketio
 from flask_socketio import emit, join_room, rooms
 from models import Contact, Message, Order, db, User, AcceptedOrder, Notification, SecretKey
 from flask import request
 from flask_mail import Message as msg, Mail
 
-app, socketio = create_app()
+app = create_app()
 mail = Mail(app)
 
 online_users = {}
