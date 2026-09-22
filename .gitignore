@@ -1,0 +1,5 @@
+.env
+__pycache__/*
+instance/app.db
+routes/__pycache__/*
+.venv

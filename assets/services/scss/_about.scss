@@ -1,0 +1,123 @@
+//about-copic
+
+.single-box-list2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    border-bottom: 1px solid $hr-border-color;
+    padding-bottom: 24px;
+    @media #{$md} {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media #{$xs} {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.about-shape {
+    position: absolute;
+    z-index: 1;
+    &.ashape-1 {
+        right: 11%;
+        top: 13%;
+        animation: float-bob-y 4s infinite linear;
+        z-index: 2;
+    }
+    &.ashape-2 {
+        bottom: 0;
+        left: -20px;
+    }
+    &.ashape-3 {
+        bottom: 0;
+        right: -20px;
+        transform: rotateY(-90deg);
+    }
+    &.ashape-4 {
+        right: 5%;
+        top: 68%;
+        animation: float-bob-y 4s infinite linear;
+    }
+}
+
+.about-img-wrapper {
+    position: relative;
+    z-index: 2;
+    .about-one {
+        margin-left: -270px;
+        margin-top: -50px;
+        @media #{$md} {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        @media #{$xs} {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+    }
+    .about-two {
+        position: absolute;
+        bottom: -27%;
+        right: 16%;
+    }
+}
+
+.about-box-shape {
+    position: absolute;
+    z-index: 1;
+    &.about-three {
+        right: 83%;
+        bottom: -34%;
+        transform: rotate(-83deg);
+        z-index: -1;
+    }
+    &.about-four {
+        left: -35%;
+        top: -15%;
+    }
+    &.about-five {
+        left: -60px;
+        bottom: -55px;
+        z-index: -1;
+    }
+    &.about-six {
+        right: 37px;
+        bottom: -195px;
+        z-index: -1;
+    }
+    &.about-seven {
+        right: 39px;
+        bottom: 75px;
+        z-index: -1;
+    }
+}
+
+.about-wrapper {
+    @media #{$lg} {
+        padding-right: 0;
+    }
+    @media #{$md} {
+        padding-right: 0;
+    }
+    @media #{$xs} {
+        padding-right: 0;
+    }
+}
+
+//about-shape3
+.about-shape3 {
+    position: absolute;
+    z-index: 1;
+    &.ashape-3 {
+        bottom: 0;
+        right: 10.31%;
+        transform: rotateY(186deg);
+        z-index: 2;
+        @media  #{$lg} {
+            right: 0;
+        }
+    }
+}

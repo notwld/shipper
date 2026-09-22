@@ -1,0 +1,170 @@
+//work-process
+.work-shape {
+    position: absolute;
+    z-index: 1;
+    &.pshape-1 {
+        right: 11%;
+        top: 26%;
+        animation: float-bob-y infinite 5s linear;
+    }
+    &.pshape-2 {
+        left: 7.5%;
+        top: 28%;
+        animation: float-bob-y infinite 5s linear;
+        @media #{$laptop} { 
+            display: none;
+        }
+        @media #{$lg} { 
+            display: none;
+        }
+        @media #{$md} { 
+            display: none;
+        }
+        @media #{$xs} { 
+            display: none;
+        }
+    }
+    &.pshape-3 {
+        left: 12.39%;
+        bottom: 12%;
+        animation: scale-up-one infinite 3s linear;
+    }
+    &.pshape-4 {
+        right: 8%;
+        bottom: 16%;
+        animation: rotation infinite 5s alternate-reverse;
+    }
+}
+
+
+.single-work {
+    text-align: center;
+     position: relative;
+     z-index: 1;
+    &__icon {
+        background-color: #E7F4F7;
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        line-height: 120px;
+        position: relative;
+        z-index: 2;
+    }
+    & .semi-title {
+        color: $body-text-color-hex;
+        @media #{$md} {
+            font-size: 18px;
+        }
+    }
+}
+
+.sw-2 {
+    &::before {
+        content: '';
+        position: absolute;
+        background: url(../img/icon/dot-line.svg) no-repeat;
+        width: 100%;
+        height: 81px;
+        left: -151px;
+        top: -67px;
+        z-index: -1;
+        transform: rotate(5deg);
+
+        @media #{$lg} {
+            display: none;
+        }
+        @media #{$md} {
+            display: none;
+        }
+        @media #{$xs} {
+            display: none;
+        }
+    }
+    & .single-work__icon {
+        background-color: #F9F5ED;
+    }
+}
+.sw-3 {
+    &::before {
+        content: '';
+        position: absolute;
+        background: url(../img/icon/dot-line.svg) no-repeat;
+        width: 100%;
+        height: 81px;
+        left: -151px;
+        top: -68px;
+        z-index: -1;
+        transform: rotate(6deg);
+        @media #{$lg} {
+            display: none;
+        }
+        @media #{$md} {
+            display: none;
+        }
+
+        @media #{$xs} {
+            display: none;
+        }
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        background: url(../img/icon/dot-line.svg) no-repeat;
+        width: 100%;
+        height: 81px;
+        right: -151px;
+        top: -58px;
+        z-index: -1;
+        @media #{$lg} {
+            display: none;
+        }
+        @media #{$md} {
+            display: none;
+        }
+
+        @media #{$xs} {
+            display: none;
+        }
+    }
+    & .single-work__icon {
+        background-color: #FAF1F1;
+    }
+}
+.sw-4 {
+    & .single-work__icon {
+        background-color: #E9F3FF;
+    }
+}
+
+
+.section-title2 {
+    h2 {
+        .w-round-shape {
+        &::before {
+            background-image: url(../img/line/red-line-4.svg) no-repeat !important;
+        }
+    }
+    }
+}
+
+.logistics-box {
+    animation: float-bob-y infinite 5s linear;
+}
+
+.work-shape-h3 {
+    position: absolute;
+    z-index: 1;
+   &.pshape-1 {
+        right: 6%;
+        top: 25%;
+        animation: float-bob-y infinite 5s linear;
+    }
+}
+
+.work-shape {
+    &.case-1a {
+        left: 5%;
+        top: 18%;
+    }
+}

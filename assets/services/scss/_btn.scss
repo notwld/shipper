@@ -1,0 +1,127 @@
+/*--
+	-theme-btn
+----------------------------------------*/
+.theme_btn {
+    overflow: hidden;
+    color: $white;
+    background: $theme-color;
+    font-size: 18px;
+    font-family: $poppins;
+    font-weight: 500;
+    line-height: 1;
+    padding: 22px 45px 22px 45px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+    text-transform: uppercase;
+    &:hover {
+        color: $white;
+        background:$theme-color2;
+    }
+
+    &.style-3 {
+        &:hover {
+            transform: translateY(-3px);
+            text-decoration: underline;
+            -webkit-transform: translateY(-3px);
+            -moz-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            -o-transform: translateY(-3px);
+        }
+    }
+}
+
+
+.theme_btn2 {
+     padding: 22px 48px 22px 48px;
+}
+
+
+//border-btn
+.theme_btn_border {
+    background: transparent;
+    border: 1px solid $heding;
+    color: $heding;
+    border-radius: 3px;
+    padding: 10px ​35px !important;
+    @include transition(.3s);
+    &:hover, &.active {
+        color: $white;
+        background-color: $heding;
+        border-color: $heding;
+    }
+    &.active {
+        &:hover {
+            background: transparent;
+            border: 2px solid $black;
+            color: $black;
+        }
+    }
+
+
+    &.style-2b {
+        border-color: $theme-color;
+        padding: 20px 32px;
+        color: $theme-color;
+        &:hover {
+            color: $white;
+            background-color: $theme-color;
+        }
+    }
+}
+
+
+.border_btn_red {
+    color: $theme-color;
+    border-color: $theme-color;
+    &:hover,
+    &.active {
+        color: $white;
+        background-color: $theme-color;
+        border-color: $theme-color;
+    }
+}
+
+
+.black-btn {
+    background-color: $heding;
+    padding: 20px 33px;
+    text-transform: initial;
+    &:hover {
+        background-color: $theme-color2;
+    }
+}
+
+.form-btn {
+    border: 0;
+}
+
+.blog-more {
+    .theme_btn_border {
+        padding: 21px 30px;
+    }
+}
+
+.btn-hover-style {
+    position: relative;
+    z-index: 1;
+    &::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 25px;
+        height: 100%;
+        background-color: #FF696B;
+        z-index: -1;
+        @include transition(.3s);
+    }
+    &:hover {
+        &::before {
+            width: 100%;
+            background-color: $theme-color2;
+        }
+    }
+} 

@@ -1,0 +1,425 @@
+{% extends "_layout.html" %}
+
+{% block title %}About Us | Be My Shipper – Smart Global Shipping Solutions{% endblock %}
+{% block description %}Be My Shipper connects senders with travelers to provide affordable and efficient shipping. Ship globally with confidence and innovative logistics solutions.{% endblock %}
+{% block style %}
+<style>
+    .about-section {
+        padding: 80px 0;
+    }
+
+    .about-header {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .about-header li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .about-header i {
+        margin-right: 10px;
+    }
+
+    .about-i {
+        color: red;
+    }
+
+    .about-button {
+        background-color: red;
+    }
+
+    .about-h1 {
+        margin: 20px 0;
+        font-size: 3rem;
+    }
+
+    .about-h2 {
+        font-size: 1.5rem;
+    }
+
+    .about-p {
+        margin: 10px 0;
+    }
+
+    .contact-info {
+        margin: 20px 0;
+    }
+
+    .contact-info div {
+        margin-bottom: 10px;
+    }
+
+    .divider {
+        border: none;
+        border-top: 1px solid #999;
+        margin: 20px 0;
+    }
+
+    .learn-more {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    .learn-more:hover {
+        background-color: #0056b3;
+    }
+
+    .achievements-section {
+        padding: 80px 0;
+        background-color: black;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .funfact {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: white;
+        display: block;
+    }
+
+    .super {
+        font-size: 1.2rem;
+        vertical-align: super;
+        color: red;
+    }
+
+    .about-h4 {
+        margin-top: 10px;
+        font-size: 1rem;
+        color: #fff;
+    }
+
+
+    /* General section styling */
+    .section-boxed {
+        background-color: #fff;
+        padding: 40px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .column-full {
+        width: 100%;
+    }
+
+    /* Header Info */
+    .header-info ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .header-info li {
+        display: inline-block;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .header-info i {
+        margin-right: 10px;
+        color: #000;
+    }
+
+    /* Heading and Text */
+    .heading-title {
+        font-size: 32px;
+        text-align: center;
+        color: #333;
+        margin: 20px 0;
+    }
+
+    .text {
+        font-size: 16px;
+        text-align: center;
+        color: #666;
+        margin-bottom: 40px;
+    }
+
+    /* Values Section */
+    .values-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .value {
+        flex-basis: 30%;
+        background-color: #eee;
+        padding: 40px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: start;
+        transition: transform 0.3s ease;
+    }
+
+    .value:hover {
+        transform: translateY(-10px);
+    }
+
+    .value i {
+        font-size: 25px;
+        color: red;
+        margin-bottom: 20px;
+
+    }
+
+    .value h2 {
+        font-size: 40px;
+    }
+
+    .value p {
+        font-size: 14px;
+        color: #777;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .values-row {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .value {
+            flex-basis: 100%;
+        }
+    }
+
+
+    /* General Section Styling */
+    .about-section {
+        padding: 40px 0;
+        background-color: #f9f9f9;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* About Information Styling */
+    .about-info {
+        padding: 20px;
+    }
+
+    .header-info {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .header-info li {
+        font-weight: bold;
+    }
+
+    .header-info a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .about-h2 {
+        font-size: 24px;
+        margin: 20px 0;
+        color: #333;
+    }
+
+    .about-p {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    /* Button Group Styling */
+    .button-group {
+        margin-top: 20px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 40px;
+        margin-right: 10px;
+        background-color: red;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .button:hover {
+        background-color: black;
+    }
+
+    /* Image Styling */
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .row {
+            flex-direction: column;
+        }
+
+        .about-info {
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<section>
+    <h1 class="about-h1 text-center" style="padding: 7%; font-size: 70px; height: 300px">About Us</h1>
+    <section class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Image Column -->
+                <div class="col-md-6 text-center">
+                    <img src="/assets/frontend/images/box-man.png" alt="Delivery person carrying packages" class="img-fluid mb-3">
+                </div>
+
+                <!-- About Information Column -->
+                <div class="col-md-6">
+                    <ul class="about-header">
+                        <li><i class="fa fa-square fa-xs me-4 about-i"></i>
+                            <h2 class="about-h2">ABOUT BEMYSHIPPER</h2about-h1>
+                        </li>
+                    </ul>
+                    <h2 class="about-h1">Moving Your World With Us, One Box at a Time</h2>
+                    <p class="about-p">
+                        Be My Shipper is more than just logistics—we're a global community built on trust and
+                        collaboration. Our platform connects senders with verified travelers who share their itineraries
+                        and luggage space, ensuring you find which shipping service is cheapest without sacrificing
+                        reliability.
+                    </p>
+                    <p class="about-p">
+                        We're dedicated to transforming how you ship, store, and return items, offering smart,
+                        affordable, and seamless solutions. Whether you're searching for shipping near me, need
+                        expedited shipping, or looking for luggage storage near me, we make logistics stress-free. By
+                        utilizing travelers' extra luggage space, we provide innovative options, including hassle-free
+                        returns and the cheapest international shipping from the USA.
+                    </p>
+
+                    <!-- Contact Information -->
+                    <div class="contact-info row">
+                        <div class="col-md-6"><i class="fa fa-envelope pe-2 my-2 about-i"></i> Email:
+                            <br><span>info@bemyshipper.com</span></div>
+                        <div class="col-md-6"><i class="fa fa-phone pe-2 my-2 about-i"></i> Phone: <br><span>1 (703)
+                                975-6454</span></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="achievements-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <h3 class="section-title about-h3">Our Achievements in Numbers</h3>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="funfact">
+                        <span class="number">10 <span class="super">+</span></span>
+                        <h4 class="about-h4">Years of Experience</h4>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="funfact">
+                        <span class="number">4 K <span class="super">+</span></span>
+                        <h4 class="about-h4">Orders Placed</h4>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="funfact">
+                        <span class="number">4.1 K <span class="super">+</span></span>
+                        <h4 class="about-h4">Clients Worldwide</h4>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="funfact">
+                        <span class="number">1 K <span class="super">+</span></span>
+                        <h4 class="about-h4">Positive Reviews</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="about-section" style="background-color: #eee">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- About Information Column -->
+                <div class="col-md-6 order-md-1 order-2" style="position: relative;">
+                    <div class="about-info">
+                        <ul class="about-header">
+                            <li><i class="fa fa-square fa-xs me-4 about-i"></i>
+                                <h2 class="about-h2">GET STARTED</h2>
+                            </li>
+                        </ul>
+                        <h2 class="about-h1">Simplify Your Shipping – Contact Us</h2>
+                        <p class="about-p">
+                            At Be My Shipper, we believe every journey—whether shipping a package, storing luggage, or
+                            managing returns—should be seamless and efficient. And if promises aren't kept, your money
+                            is always guaranteed back—no hassle, no exceptions. Join us today to experience a smarter,
+                            more reliable way to ship.
+                        </p>
+                        <hr class="divider">
+                        <div class="d-flex">
+                            <div class="wow fadeInUp" style="animation-delay:550ms">
+                                <a href="/contact"><button class="btn btn-a w170 about-button">contact us</button></a>
+                            </div>
+                            <div class="mL10 wow fadeInUp" style="animation-delay:800ms">
+                                <a href="/select-service">
+                                    <button class="btn btn-b w170 about-button">select service</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image Column -->
+                <div class="col-md-6 text-center order-md-2 order-1">
+                    <img src="/assets/frontend/images/box-man.png" alt="Delivery person carrying packages" class="img-fluid"
+                        style="height: 500px;">
+                </div>
+            </div>
+
+        </div>
+    </section>
+    {% endblock %}

@@ -1,0 +1,130 @@
+//copic-team
+.copic-team-wrapper {
+    & .section-title {
+        padding-right: 40px;
+         padding-left: 40px;
+         @media #{$xs} {
+             padding-left: 0;
+             padding-right: 0;
+         }
+    }
+}
+.social-links {
+    a {
+        color: $white;
+        font-size: 16px;
+        background-color: $theme-color;
+        width:48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-block;
+        line-height: 48px;
+        text-align: center;
+        margin: 0 3px;
+    }
+} 
+
+.team-content {
+    background: linear-gradient(rgba(4, 27, 32, 0) 0%, #0d0d0d 100%);
+    background: -webkit-linear-gradient(rgba(4, 27, 32, 0) 0%, #0d0d0d 100%);
+    background: -moz-linear-gradient(rgba(4, 27, 32, 0) 0%, #0d0d0d 100%);
+    background: -o-linear-gradient(rgba(4, 27, 32, 0) 0%, #0d0d0d 100%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: -110%;
+    padding: 25px 0;
+    z-index: 1;
+    @include transition(.3s);
+
+    & .sect-title {
+        color: $white;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    & p {
+        color: $white;
+    }
+}
+
+.team-wrapper {
+    overflow: hidden;
+    .team-thumb {
+        overflow: hidden;
+        & img {
+            @include transition(.3s);
+        }
+    }
+    .social-links {
+        & a {
+            &:last-child {
+                background-color: $theme-color2;
+            }
+            &:hover {
+                color: $theme-color;
+                background-color: $white;
+            }
+        }
+    }
+    &:hover {
+        .team-thumb {
+            & img {
+                transform: scale(1.1);
+            }
+        }
+       & .team-content {
+            bottom: 0;
+       }
+    }
+}
+
+.team-shape {
+    position: absolute;
+    z-index: 1;
+    &.tmshape-1 {
+        left: 6%;
+        bottom: 18%;
+        animation: rotation infinite 3s alternate;
+    }
+    &.tmshape-2 {
+        right: 6%;
+        bottom: 7.5%;
+        z-index: -1;
+        animation: float-bob-y infinite 5s alternate-reverse;
+    }
+    &.tmshape-3a {
+        left: 146px;
+        top: 200px;
+        animation: float-bob-y infinite 5s alternate-reverse;
+        @media #{$xs} {
+            display: none;
+        }
+    }
+}
+
+.copic-team-wrapper {
+    .bs-2::before {
+        background-image: url(../img/line/red-line-5.svg);
+        left: 8px;
+        top: 17px;
+    }
+}
+
+.team-shape2 {
+    position: absolute;
+    z-index: 1;
+    &.tmshape-1 {
+        left: 108px;
+        top: 39%;
+        animation: float-bob-y infinite 7s alternate;
+    }
+    &.tmshape-2 {
+        right: 130px;
+        top: 113px;
+        animation: float-bob-y infinite 3s alternate;
+        z-index: -1;
+    }
+}
+

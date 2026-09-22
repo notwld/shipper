@@ -1,0 +1,319 @@
+{% extends "_layout.html" %}
+
+{% block title %}Order Detail{% endblock %}
+
+{% block content %}
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="">
+                    <h1>Order</h1>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" id="orderTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                            type="button" role="tab" aria-controls="details" aria-selected="true">DETAILS</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="travelers-tab" data-bs-toggle="tab" data-bs-target="#travelers"
+                            type="button" role="tab" aria-controls="travelers" aria-selected="false">TRAVELLER</button>
+                    </li>
+                    {% if user.id == order.user_id %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button"
+                            role="tab" aria-controls="chat" aria-selected="false">CHATS</button>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" id="orders">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+            <div class="ordersAvatar">
+                <div class="d-flex a-center j-evenly">
+                    <div class="bx">
+                        <img src="{% if order.user.profile_picture %}{{ url_for('static', filename='uploads/' + order.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" 
+                             alt="User Avatar" 
+                             class="rounded-circle"
+                             style="width: 50px; height: 50px; object-fit: cover;">
+                        <span>{{ order.user.first_name }} {{ order.user.last_name }}</span>
+                    </div>
+                    <div class="seperator-dotted"></div>
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Traveler Avatar">
+                        <span>Traveler</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mtb-60">
+                <div class="travelers">
+                    <div class="bottom">
+                        <div class="txt">
+                            <div class="name">
+                                <h3>Departure</h3>
+                                <p>{{ order.order_from_location }}</p>
+                            </div>
+                        </div>
+                        <div class="plane">
+                            <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="Airplane Icon">
+                        </div>
+                        <div class="txt">
+                            <div class="name">
+                                <h3>Arrival</h3>
+                                <p>{{ order.deliverer_location }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="Direction Arrow">
+                    </div>
+
+                    {% if order.image1 or order.image2 or order.image3 or order.image4 %}
+                    <div class="packagepic">
+                        {% if order.image1 %}
+                        <div>
+                            <img src="/public/uploads/{{ order.image1 }}" alt="Package Image 1">
+                        </div>
+                        {% endif %}
+                        {% if order.image2 %}
+                        <div>
+                            <img src="/public/uploads/{{ order.image2 }}" alt="Package Image 2">
+                        </div>
+                        {% endif %}
+                        {% if order.image3 %}
+                        <div>
+                            <img src="/public/uploads/{{ order.image3 }}" alt="Package Image 3">
+                        </div>
+                        {% endif %}
+                        {% if order.image4 %}
+                        <div>
+                            <img src="/public/uploads/{{ order.image4 }}" alt="Package Image 4">
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="cntAvatar">
+                        <div class="luggage">
+                            <p>luggage capacity</p>
+                            <span>{{ order.weight }} kg</span>
+                        </div>
+                        <div class="luggage">
+                            <p>Receiver Phone</p>
+                            <span>
+                                {% if user.subscription_status == 'active' %}
+                                    {{ order.user.phone }}
+                                {% else %}
+                                    Subscribe to view phone number
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="descript">
+                        <p>Description</p>
+                        <span>{{ order.comments }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="travelers" role="tabpanel" aria-labelledby="travelers-tab">
+            <div class="ordersAvatar">
+                <div class="d-flex a-center j-evenly">
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Sender Avatar">
+                        <span>{{ order.user.first_name }}</span>
+                    </div>
+                    <div class="seperator-dotted"></div>
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Traveler Avatar">
+                        <span>Traveler</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mtb-60">
+                <div class="row mtb-60">
+                    {% if not trips %}
+                    <p class="text-center fw-semibold fs-20">No Trips Found</p>
+                    {% else %}
+                    {% for trip in trips %}
+                    {% if trip.status == 'active' %}
+                    <div class="col-md-6 mtb15">
+                        <div class="travelers">
+                            <div class="top">
+                                <div class="avatar">
+                                    <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Traveler Avatar">
+                                    <div class="name">
+                                        <div style="display: flex; align-items: center;">
+                                            <h3>{{ trip.user.first_name }} {{ trip.user.last_name }}</h3>
+                                            {% if trip.user.badge_status == 'active' %}
+                                                <img src="{{ url_for('static', filename='frontend/images/verified.png') }}" alt="Verified Badge"
+                                                    style="width: 20px; object-fit: contain; margin-left: 5px; margin-bottom: 2px;">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="luggage">
+                                    <p>luggage capacity</p>
+                                    <span>{{ trip.weight }} KG</span>
+                                </div>
+                            </div>
+                            <div class="divider">
+                                <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="Direction Arrow">
+                            </div>
+                            <div class="bottom">
+                                <div class="txt">
+                                    <div class="name">
+                                        <h3>Departure</h3>
+                                        <p>{{ trip.traveling_from }}</p>
+                                    </div>
+                                </div>
+                                <div class="plane">
+                                    <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="Airplane Icon">
+                                </div>
+                                <div class="txt">
+                                    <div class="name">
+                                        <h3>Arrival</h3>
+                                        <p>{{ trip.traveling_to }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="wow fadeInUp mt20 text-center" style="animation-delay:550ms">
+                                {% if trip.chat_requests %}
+                                <button class="btn btn-a w170 chat-request" disabled="disabled">Chat Requested</button>
+                                {% else %}
+                                <button class="btn btn-a w170 chat-request"
+                                    onclick="chatReq({{ trip.id }}, {{ trip.user.id }})"
+                                    data-tripid="{{ trip.id }}">Chat
+                                    Request</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="chat" role="tabpanel" aria-labelledby="chat-tab">
+            <div class="row justify-content-center">
+
+                <div class="col-md-8 mx-auto my-4" id="chats">
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var url = window.location.href;
+    var hashIndex = url.indexOf("#");
+
+    if (hashIndex === -1) {
+        console.log("No hash found in the URL");
+    } else {
+        var activeTab = url.substring(hashIndex + 1);
+        if (activeTab != "") {
+            $(".tab-pane").removeClass("active in show");
+            $("#" + activeTab).addClass("active in show");
+            $(".nav-link").removeClass("active");
+            $('[data-bs-target="#' + activeTab + '"]').addClass('active');
+        }
+    }
+    // $('.chat-request').click(function () {
+    //     var orderId = '{{ order.id }}';
+    //     var thisButton = $(this);
+    //     thisButton.attr("disabled", true);
+    //     thisButton.html("Please wait...");
+    //     // Data to send (as an example)
+    //     var dataToSend = {
+    //         trip_id: this.getAttribute('data-tripid'),
+    //         order_id: orderId,
+    //         initiated_for: 'trip'
+    //     };
+
+    //     // // AJAX POST request
+    //     // $.ajax({
+    //     //     url: '/chat/request', // Replace with your API URL
+    //     //     type: 'POST', // Method type
+    //     //     data: JSON.stringify(dataToSend), // Convert JavaScript object to JSON
+    //     //     contentType: 'application/json', // Content type expected by the server
+    //     //     success: function (response) {
+    //     //         console.log(thisButton);
+    //     //         thisButton.attr("disabled", true);
+    //     //         thisButton.html("Chat Requested");
+    //     //         console.log('Response from server:', response);
+    //     //     },
+    //     //     error: function (xhr, status, error) {
+    //     //         console.error('Error occurred:', error);
+    //     //         thisButton.attr("disabled", false);
+    //     //         thisButton.html("Chat Request");
+    //     //     }
+    //     // });
+    // });
+    const chatReq = async (orderId, user_id) => {
+        // alert(`Chat Requested for order ${orderId} and user ${user_id}`);
+        const response = await fetch('/contact', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id: orderId,
+                user_id: user_id,
+            }),
+        }).then(response => response.json())
+            .then(data => {
+                $(".chat-request").html("Chat Requested");
+                $(".chat-request").attr("disabled", true);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetch('/contact/order', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('access_token'),
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let chats = document.getElementById('chats');
+                data.forEach(chat => {
+                    let chatDiv = document.createElement('div');
+                    chatDiv.classList.add('card', 'clickable-box', 'p-3', 'd-flex', 'align-items-center', 'flex-row');
+                    chatDiv.innerHTML = `
+                    <a href="/chat/order/${chat.recipient_id}" class="text-decoration-none" style="margin-bottom: 10px; margin-top: 10px; width: 100%;">
+                        <div class="card clickable-box p-3 d-flex align-items-center flex-row w-100">
+                            <img src="https://eu.ui-avatars.com/api/?name=${chat.recipient_name}&size=50" alt="Image" class="img-fluid">
+                            <span class="text-dark mx-2">${chat.recipient_name}</span>
+                            
+                        </div>
+                    </a>
+                `;
+                    chats?.appendChild(chatDiv);
+                });
+
+            })
+            .catch(error => console.error('Error:', error));
+
+    });
+</script>
+{% endblock %}

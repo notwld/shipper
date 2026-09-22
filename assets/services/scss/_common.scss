@@ -1,0 +1,541 @@
+/*----------------------------------------*/
+/*  01. Theme default CSS
+/*----------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Saira+Extra+Condensed:wght@400;500;600;700;800&display=swap');
+
+
+//custom-fonts
+@font-face {
+	font-family: 'gloss_and_bloomregular';
+	src: url('../fonts/gloss_and_bloom.woff2') format('woff2'),
+		url('../fonts/gloss_and_bloom.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
+/* 1. Theme default css */
+
+
+
+
+ body {
+	font-family: $poppins;
+	font-size: 16px;
+	line-height: 28px;
+	font-weight: 400;
+    font-style: normal;
+    color:$body-text-color;
+}
+// .img,img {
+// 	max-width: 100%;
+// 	@include transition(.3s);
+// }
+.f-left {
+	float: left
+}
+.f-right {
+	float: right
+}
+.fix {
+	overflow: hidden
+}
+a,
+.button {
+	@include transition(.3s);
+}
+a {
+	text-decoration: none;
+}
+a:focus,
+.button:focus {
+	text-decoration: none;
+	outline: none;
+}
+a:focus,
+a:hover
+{
+	color: blue;
+	text-decoration: none;
+}
+a,
+button {
+	color: inherit;
+	outline: medium none;
+}
+button:focus,input:focus,input:focus,textarea,textarea:focus{outline: 0}
+.uppercase {
+	text-transform: uppercase;
+}
+.capitalize {
+	text-transform: capitalize;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $saira;
+	color: $heding;
+	line-height: 1.1;
+	margin-top: 0px;
+	font-style: normal;
+	font-weight: 700;
+	text-transform: normal;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+	color: inherit;
+}
+h1, .h1 {
+	font-size: 40px;
+}
+h2,
+.h2 {
+	font-size: 36px;
+	font-weight:700;
+}
+h3,
+.h3 {
+	font-size: 28px;
+	font-weight:700;
+}
+h4,
+.h4 {
+	font-size: 22px;
+	font-weight:700;
+}
+h5,
+.h5 {
+	font-size: 18px;
+	font-weight:700;
+}
+h6,
+.h6 {
+	font-size: 16px;
+	font-weight:700;
+}
+
+.list-style-none {
+	margin: 0px;
+	padding: 0px;
+	li {
+		list-style-type: none;
+		a {
+			list-style-type: none;
+		}
+	}
+}
+
+
+p {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 30px;
+	font-family: $poppins;
+	color: $body-text-color;
+	margin-bottom: 0;
+}
+hr {
+	border-bottom: 1px solid $hr-border-color;
+	border-top: 0 none;
+	margin: 30px 0;
+	padding: 0;
+}
+label {
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 400;
+}
+*::-moz-selection {
+	background: $black;
+	color: $white;
+	text-shadow: none;
+}
+::-moz-selection {
+	background: $black;
+	color:$white;
+	text-shadow: none;
+}
+::selection {
+	background: $black;
+	color: $white;
+	text-shadow: none;
+}
+
+//before-none
+.before-none {
+	&::before {
+		display: none;
+	}
+} 
+.after-none {
+	&::after {
+		display: none;
+	}
+}
+
+/*--
+    - Input Placeholder
+-----------------------------------------*/
+*::-moz-placeholder {
+	color: $black;
+	font-size: 14px;
+	opacity: 1;
+}
+*::placeholder {
+	color: $black;
+	font-size: 14px;
+	opacity: 1;
+}
+
+
+/*--
+    - position Classes
+-----------------------------------------*/
+.pos-rel {
+	position: relative;
+}
+.pos-abl {
+	position: absolute;
+}
+/*--
+    - Common Classes
+-----------------------------------------*/
+.fix {
+    overflow:hidden
+}
+.clear{
+    clear: both;
+}
+
+
+/*--
+    - Background color
+-----------------------------------------*/
+
+.grey-bg {
+	background: $grey;
+}
+.grey-bg-soft {
+	background: #fefaf7;
+}
+.grey-bg-soft2 {
+	background: #FFF8EE;
+}
+.grey-bg-soft3 {
+	background: #fefcf7;
+}
+
+.sky-blue-bg {
+	background-color: $sky-blue;
+}
+.sky-blue-bg-2 {
+	background-color: #F3FAFC;
+}
+.sky-blue-bg-soft {
+	background-color: #F0FCFF;
+}
+.white-bg {
+	background:$white;
+}
+.black-bg {
+	background: $black;
+}
+
+.heding-bg {
+	background: $heding;
+}
+.theme-bg {
+	background: $theme-color;
+}
+
+.primary-bg {
+	background: #222;
+}
+
+/*--
+    - color
+-----------------------------------------*/
+.white-color {
+	color: $white;
+}
+.black-color {
+	color: $black;
+}
+.theme-color {
+	color: $theme-color;
+}
+
+.theme-color2 {
+	color: $theme-color2;
+}
+
+.primary-color {
+	color: #222;
+}
+
+
+
+//theme-color-bg-class
+
+.theme-bg-color {
+	background-color: $theme-color;
+}
+
+.theme-bg-color2 {
+	background-color: $theme-color2 !important;
+}
+
+
+//left-line
+.left-line {
+	position: relative;
+	&::before {
+		content: "";
+		background: $white;
+		position: absolute;
+		left: 0;
+		top: 10px;
+		width: 50px;
+		height: 2px;
+		z-index: 1;	  
+	}
+}
+
+  
+
+/*--
+section-title
+----------------------------------------*/
+.section-title {
+	position: relative;
+	z-index: 2;
+	& h6 {
+		color: $red-soft;
+		font-size: 16px;
+		font-family: $poppins;
+		font-weight: 500;
+	}
+	& h2 {
+		font-size: 65px;
+		line-height: 1;
+		@media #{$lg} {
+			font-size: 45px !important;
+		}
+
+		@media #{$md} {
+			font-size: 35px !important;
+		}
+
+		@media #{$xs} {
+			font-size: 26px !important;
+		}
+	}
+} 
+
+.sect-title {
+	font-size: 20px;
+	font-family: $poppins;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+
+.bg-shape {
+	display: inline-block;
+	position: relative;
+	z-index: 1;
+	&::before {
+		content: '';
+		position: absolute;
+		background-image: url(../img/shape/text-bg.svg);
+		width: 100%;
+		height: 25px;
+		display: inline-block;
+		left: 0;
+		bottom: 6px;
+		z-index: -1;
+		@media #{$xs} {
+			bottom: 0;
+		}
+	}
+
+}
+
+
+.semi-title {
+	font-size: 26px;
+}
+
+
+.section-title2 {
+
+	h2 {
+		@media #{$laptop} {
+			font-size: 45px !important;
+		}
+		.bs-2::before {
+			content: '';
+			position: absolute;
+			background-image: url(../img/line/red-line-2.svg);
+			background-repeat: no-repeat;
+			display: inline-block;
+			@include equal-size(100%);
+			left: 0;
+			right: 0;
+			top: 11px;
+			z-index:-1;
+			@media #{$laptop} {
+				display: none;
+			}
+			@media #{$lg} {
+				display: none;
+			}
+			@media #{$md} {
+				display: none;
+			}
+			@media #{$xs} {
+				display: none;
+			}
+		}
+	}
+	& p {
+		font-size: 20px;
+		line-height: 32px;
+		@media #{$md} {
+			font-size: 16px;
+			line-height: 28px;
+		}
+	}
+}
+
+  
+//video-icon
+.popup-video {
+	color: $white;
+	background: $theme-color2;
+	border-radius: 50%;
+	line-height: 65px;
+	display: inline-block;
+	width: 65px;
+	height: 65px;
+	text-align: center;
+	-webkit-transition: all 0.4s ease-out 0s;
+	-moz-transition: all 0.4s ease-out 0s;
+	-ms-transition: all 0.4s ease-out 0s;
+	-o-transition: all 0.4s ease-out 0s;
+	transition: all 0.4s ease-out 0s;
+	position: relative;
+	z-index: 1;
+	animation: pulseBig infinite 5s linear;
+	&:hover {
+		color: $white;
+		background: $theme-color;
+	}
+}
+
+
+// others common css here :)
+
+.dark #preloader {
+	background-color: #232323;
+}
+
+#preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #f7f7f7;
+	z-index: 999999;
+}
+
+.preloader {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	padding: 0px;
+	text-align: left;
+	box-sizing: border-box;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -25px;
+	margin-top: -25px;
+}
+
+.preloader span {
+	position: absolute;
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background: $theme-color;
+	-webkit-animation: preloader 1.3s linear infinite;
+	animation: preloader 1.3s linear infinite;
+}
+
+.preloader span:last-child {
+	animation-delay: -0.8s;
+	-webkit-animation-delay: -0.8s;
+}
+
+@keyframes preloader {
+	0% {
+		transform: scale(0, 0);
+		opacity: 0.5;
+	}
+
+	100% {
+		transform: scale(1, 1);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes preloader {
+	0% {
+		-webkit-transform: scale(0, 0);
+		opacity: 0.5;
+	}
+
+	100% {
+		-webkit-transform: scale(1, 1);
+		opacity: 0;
+	}
+}
+//scrollup
+.scrollUp {
+	color: $white;
+	width: 60px;
+	height: 60px;
+	display: inline-block;
+	border-radius: 50%;
+	background-color: $theme-color;
+	text-align: center;
+	line-height: 60px;
+	font-size: 20px;
+	position: fixed;
+	right: 50px;
+	z-index: 1111;
+	bottom: 50px;
+	@media #{$xs} {
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		right: 20px;
+		font-size: 16px;
+	}
+	& i {
+		color: $white;
+	}
+}
+//animation
+

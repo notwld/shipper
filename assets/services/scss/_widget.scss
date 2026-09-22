@@ -1,0 +1,99 @@
+//widget
+
+
+.widget_search {
+   & .search-form {
+        position: relative;
+        z-index: 1;
+
+        &::before {
+            content: '\f002';
+            position: absolute;
+            font-size: 18px;
+            font-family: "Font Awesome 5 Pro";
+            left: 19px;
+            top: 50%;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+    }
+   & input {
+        color: #ababab;
+        font-size: 15px;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid $border-color2;
+        border-radius: 0;
+        width: 100%;
+        height: 58px;
+        padding-left: 49px;
+    }
+}
+
+.widget_categories {
+  &  ul{
+       & li {
+            color: $heding;
+            font-size: 22px;
+            font-weight: 500;
+            font-family: $saira;
+            position: relative;
+            border-bottom: 1px solid $border-color2;
+            padding: 14px 0;
+            &:first-child {
+                border-top: 1px solid $border-color2;
+            }
+            &:hover {
+                a,
+                span {
+                    color: $theme-color;
+                }
+            }
+           &  span {
+                 position: absolute;
+                 top: right;
+                 right: 0;
+             }
+        }
+    }
+}
+
+
+.widget.widget_add_banner {
+    
+   & .wideget_cta_content {
+        padding: 30px 30px 40px 30px;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+        &::before {
+            content: "";
+            position: absolute;
+            width: 116px;
+            height: 116px;
+            background-color: #27D1F5;
+            border-radius: 50%;
+            left: -83px;
+            top: -69px;
+            z-index: -1;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            width: 116px;
+            height: 116px;
+            background-color: #27D1F5;
+            border-radius: 50%;
+            right: -83px;
+            bottom: -69px;
+            z-index: -1;
+        }
+    }
+   & .add-title {
+        font-size: 30px;
+    }
+   & .number{
+        font-size: 32px;
+        font-family: $saira;
+    }
+}

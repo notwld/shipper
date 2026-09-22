@@ -1,0 +1,366 @@
+{% extends "_layout.html" %}
+
+{% block title %}Trip Detail{% endblock %}
+
+{% block content %}
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="">
+                    <h1>Trip</h1>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" id="orderTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                            type="button" role="tab" aria-controls="details" aria-selected="true">DETAILS</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="orderss-tab" data-bs-toggle="tab" data-bs-target="#orderss"
+                            type="button" role="tab" aria-controls="orderss" aria-selected="false">ORDERS</button>
+                    </li>
+                    {% if user.id == trip.user_id %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="chats-tab" data-bs-toggle="tab" data-bs-target="#chats"
+                            type="button" role="tab" aria-controls="chats" aria-selected="false">CHATS</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="accepted-orders-tab" data-bs-toggle="tab"
+                            data-bs-target="#accepted-orders" type="button" role="tab" aria-controls="accepted-orders"
+                            aria-selected="false">ACCEPTED ORDERS</button>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="orders">
+    <div class="tab-content" id="myTabContent">
+        <!-- Details Tab -->
+        <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+            <div class="ordersAvatar">
+                <div class="d-flex a-center j-evenly">
+                    <div class="bx">
+                        <img src="{% if trip.user.profile_picture %}{{ url_for('static', filename='uploads/' + trip.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" 
+                             alt="User Avatar"
+                             class="rounded-circle"
+                             style="width: 50px; height: 50px; object-fit: cover;">
+                        <span>{{ trip.user.first_name }} {{ trip.user.last_name }}</span>
+                    </div>
+                    <div class="seperator-dotted"></div>
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Receiver Avatar">
+                        <span>Receiver</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mtb-60">
+                <div class="travelers">
+                    <div class="bottom">
+                        <div class="txt">
+                            <div class="name">
+                                <h3>Departure</h3>
+                                <p>{{ trip.traveling_from }}</p>
+                            </div>
+                        </div>
+                        <div class="plane">
+                            <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="Airplane Icon">
+                        </div>
+                        <div class="txt">
+                            <div class="name">
+                                <h3>Arrival</h3>
+                                <p>{{ trip.traveling_to }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="Direction Arrow">
+                    </div>
+                    <div class="cntAvatar">
+                        <div class="luggage">
+                            <p>luggage capacity</p>
+                            <span>{{ trip.weight }} kg</span>
+                        </div>
+
+                        <div class="luggage">
+                            <p>Receiver Phone</p>
+                            <span>
+                                {% if user.subscription_status == 'active' %}
+                                    {{ trip.user.phone if trip.user.phone else 'Not provided' }}
+                                {% else %}
+                                    Subscribe to view phone number
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="descript">
+                        <p>Description</p>
+                        <span>{{ trip.comments if trip.comments else 'No description provided' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="tab-pane fade" id="orderss" role="tabpanel" aria-labelledby="trip-orders-tab">
+            <div class="ordersAvatar">
+                <div class="d-flex a-center j-evenly">
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Sender Avatar">
+                        <span>Sender</span>
+                    </div>
+                    <div class="seperator-dotted"></div>
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Traveler Avatar">
+                        <div class="name">
+                            <div style="display: flex; align-items: center;">
+                                <h3>{{ trip.user.first_name }} {{ trip.user.last_name }}</h3>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="seperator-dotted"></div>
+                    <div class="bx">
+                        <img src="{{ url_for('static', filename='frontend/images/avatar.png') }}" alt="Receiver Avatar">
+                        <span>Receiver</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mtb-60">
+                <div class="row mtb-60">
+                    {% if not orders %}
+                    <p class="text-center my-5 font-semibold">No orders found</p>
+                    {% else %}
+                    {% for order in orders %}
+                    {% if order.status == 'active' %}
+                    <div class="col-md-6 mtb15">
+                        <div class="travelers">
+                            <div class="top">
+                                <div class="avatar">
+                                    <img src="{% if order.user.profile_picture %}{{ url_for('static', filename='uploads/' + order.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" 
+                                         alt="User Avatar"
+                                         class="rounded-circle"
+                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="name" style="display: flex; align-items: center;">
+                                        <h3>{{ order.user.first_name if order.user else 'Guest' }} {{
+                                            order.user.last_name if order.user else '' }} </h3> {% if
+                                        order.user.badge_status == 'active' %}
+                                        <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                            alt="Verified Badge"
+                                            style="width: 20px; object-fit: contain; margin-left: 5px; margin-bottom: 2px;">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="luggage">
+                                    <p>luggage capacity</p>
+                                    <span>{{ order.weight }}kg</span>
+                                </div>
+                            </div>
+                            <div class="divider">
+                                <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="Direction Arrow">
+                            </div>
+                            <div class="bottom">
+                                <div class="txt">
+                                    <div class="name">
+                                        <h3>Departure</h3>
+                                        <p>{{ order.order_from_location }}</p>
+                                    </div>
+                                </div>
+                                <div class="plane">
+                                    <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="Airplane Icon">
+                                </div>
+                                <div class="txt">
+                                    <div class="name">
+                                        <h3>Arrival</h3>
+                                        <p>{{ order.deliverer_location }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wow fadeInUp mt20 text-center" style="animation-delay:550ms">
+                                {% if order.has_chat_request %}
+                                <button class="btn btn-a w170 chat-request" disabled="disabled">Chat Requested</button>
+                                {% else %}
+                                <button class="btn btn-a w170 chat-request" data-orderid="{{ order.id }}">Chat
+                                    Request</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Chats Tab -->
+        <div class="tab-pane fade" id="chats" role="tabpanel" aria-labelledby="chats-tab">
+            <div class="row justify-content-center space-y-2">
+
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="accepted-orders" role="tabpanel" aria-labelledby="accepted-orders-tab">
+            <div class="mtb-60">
+                {% if not accepted_orders %}
+                <p class="text-center my-5 fw-semibold">No accepted orders found</p>
+                {% else %}
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase small fw-semibold">Sender</th>
+                                    <th class="text-uppercase small fw-semibold">Recipient</th>
+                                    <th class="text-uppercase small fw-semibold">Route</th>
+                                    <th class="text-uppercase small fw-semibold">Weight</th>
+                                    <th class="text-uppercase small fw-semibold">Price</th>
+                                    <th class="text-uppercase small fw-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for accepted_order in accepted_orders %}
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <div class="fw-semibold">
+                                                {{ accepted_order['recipient']['first_name'] }} {{ accepted_order['recipient']['last_name'] }}
+                                            </div>
+                                            <div class="text-muted small">
+                                                {{ accepted_order['recipient']['email'] }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">{{ accepted_order['traveler']['first_name'] }} {{ accepted_order['traveler']['last_name'] }}</div>
+                                        <div class="text-muted small">{{ accepted_order['traveler']['email'] }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">From: {{ accepted_order['trip']['traveling_from'] }}</div>
+                                        <div class="text-muted small">To: {{ accepted_order['trip']['traveling_to'] }}</div>
+                                        <div class="text-muted small">Date: {{ accepted_order['trip']['traveling_date'] }}</div>
+                                    </td>
+                                    <td>
+                                        {% if accepted_order['acceptance_condition']['weight'] == None %}
+                                        <span class="text-muted">Product Weight Not Specified</span>
+                                        {% else %}
+                                        {{ accepted_order['acceptance_condition']['weight'] }} kg
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">${{ accepted_order['acceptance_condition']['total_price'] }}</div>
+                                        <div class="text-muted small">
+                                            {% if accepted_order['acceptance_condition']['weight'] == None %}
+                                            <span>Product Wise</span>
+                                            {% else %}
+                                            ${{ accepted_order['acceptance_condition']['price_per_kg'] }}/kg
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge {% if accepted_order['acceptance_condition']['status'] == 'pending' %}
+                                                bg-warning
+                                            {% elif accepted_order['acceptance_condition']['status'] == 'accepted' %}
+                                                bg-success
+                                            {% else %}
+                                                bg-danger
+                                            {% endif %}">
+                                            {{ accepted_order['acceptance_condition']['status'] }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    // Handle URL hash for tabs
+    var url = window.location.href;
+    var hashIndex = url.indexOf("#");
+
+    if (hashIndex !== -1) {
+        var activeTab = url.substring(hashIndex + 1);
+        if (activeTab !== "") {
+            $(".tab-pane").removeClass("active in show");
+            $("#" + activeTab).addClass("active in show");
+            $(".nav-link").removeClass("active");
+            $('[data-bs-target="#' + activeTab + '"]').addClass('active');
+        }
+    }
+
+    // Handle chat requests
+    $('.chat-request').click(function () {
+        var tripId = '{{ trip.id }}';
+        var thisButton = $(this);
+        thisButton.attr("disabled", true);
+        thisButton.html("Please wait...");
+
+        var dataToSend = {
+            trip_id: tripId,
+            order_id: this.getAttribute('data-orderid'),
+            initiated_for: 'order'
+        };
+
+        $.ajax({
+            url: '/',
+            type: 'POST',
+            data: JSON.stringify(dataToSend),
+            contentType: 'application/json',
+            success: function (response) {
+                thisButton.attr("disabled", true);
+                thisButton.html("Chat Requested");
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred:', error);
+                thisButton.attr("disabled", false);
+                thisButton.html("Chat Request");
+                alert('Failed to send chat request. Please try again.');
+            }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetch('/contact/trip', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('access_token'),
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let chats = document.getElementById('chats');
+                data.forEach(chat => {
+                    let chatDiv = document.createElement('div');
+                    chatDiv.classList.add('card', 'clickable-box', 'p-3', 'd-flex', 'align-items-center', 'flex-row');
+                    chatDiv.innerHTML = `
+                    <a href="/chat/trip/${chat.initiator_id}" class="text-decoration-none" style="margin-bottom: 10px; margin-top: 10px; width: 100%;">
+                        <div class="card clickable-box p-3 d-flex align-items-center flex-row w-100">
+                            <img src="https://eu.ui-avatars.com/api/?name=${chat.initiator_name}&size=50" alt="Image" class="img-fluid">
+                            <span class="text-dark mx-2">${chat.initiator_name}</span>
+                            
+                        </div>
+                    </a>
+                `;
+                    chats?.appendChild(chatDiv);
+                });
+
+            })
+            .catch(error => console.error('Error:', error));
+
+    });
+
+</script>
+{% endblock %}

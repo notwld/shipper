@@ -1,0 +1,571 @@
+//logistics-services
+.round-background {
+    border-radius:0 0 68% 68%;
+    position: relative;
+    z-index: 1;
+    @media #{$md} {
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        -o-border-radius: 0;
+    }
+    @media #{$xs} {
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        -o-border-radius: 0;
+    }
+}
+.service-shape {
+    position: absolute;
+    z-index: 1;
+    &.service-1 {
+        left: 13.22%;
+        top: 28%;
+        animation: rotation infinite 7s linear;
+    }
+    &.service-2 {
+        right: 15.41%;
+        top: 18%;
+        animation: rotateIn infinite 4s linear;
+    }
+}
+
+
+
+.c-services {
+    border-radius: 5px;
+    padding: 50px 50px 57px 50px;
+    @include transition(0.5s);
+    @media #{$lg} {
+        padding: 50px 20px 57px 20px;
+    }
+    @media #{$md} {
+        padding: 50px 20px 57px 20px;
+    }
+    @media #{$xs} {
+        padding: 40px 15px 57px 5px;
+    }
+    &__icon {
+        display: inline-block;
+        width: 124px;
+        height: 124px;
+        background: rgba(206, 239, 255, 0);
+        border: 1px solid transparent;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 124px;
+        margin: 0 auto;
+        margin-bottom: 35px;
+        position: relative;
+        @include transition(0.3s); 
+        & img {
+            width: 78px;
+            height: 78px;
+        }
+
+    }
+    & .service-title {
+        font-size: 30px;
+        font-weight: 600;
+        @media #{$xs} {
+            font-size: 26px;
+        }
+    }
+    & p {
+        color: rgba(24, 21, 44, 0.8);
+        font-size: 18px;
+    }
+    a  {
+        color: $black;
+        font-size: 16px;
+        font-weight: 500;
+        opacity: 0;
+        visibility: hidden;
+        display: inline-block;
+        transform: translateY(-20px);
+         @include transition(0.5s);
+        & img{
+            margin-left: 6px;
+            width: 20px;
+            height: 10px;
+        }
+        &:hover {
+            color: $theme-color;
+        }
+    }
+    &:hover, &.active {
+        border-radius: 5px;
+        background: $white;
+        box-shadow: 0px 0px 26px rgba(215, 212, 212, 0.35);
+        transform: translateY(-25px);
+       & .c-services__icon {
+            border-color: #f9f0ee;
+        }
+       & a {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    }
+}
+
+.feature-active.owl-carousel .owl-item img {
+            display: inline-block !important;
+            width: unset !important;
+        }
+
+
+
+
+//onestop-management
+.onestop-management {
+    position: relative;
+    z-index: 1;
+}
+.manage-shape {
+    position: absolute;
+    z-index: 1;
+    &.manage-1 {
+        left: 120px;
+        top: 27%;
+        animation: float-bob-y infinite 4s alternate-reverse;
+    }
+    &.manage-2 {
+        left: 237px;
+        bottom: 120px;
+        animation: rotation infinite 5s linear;
+    }
+    &.manage-3 {
+        right: 0;
+        z-index: -1;
+        top: 0;
+        animation: float-bob-y infinite 4s alternate;
+    }
+}
+
+
+
+.management-title {
+    position: relative;
+    z-index: 2;
+    @media #{$lg} {
+        padding-right: 0;
+    }
+    @media #{$md} {
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+    @media #{$xs} {
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+    & h2 {
+        margin-bottom: 35px;
+        padding-right: 120px;
+         @media #{$lg} {
+             padding-right: 0;
+         }
+
+         @media #{$md} {
+             padding-right: 0;
+         }
+
+         @media #{$xs} {
+             padding-right: 0;
+         }
+    }
+}
+.trusted-area {
+    @media #{$lg} {
+        padding-left: 0;
+    }
+    @media #{$md} {
+        padding-left: 0;
+    }
+    @media #{$xs} {
+        padding-left: 15px;
+    }
+}
+.row-count-content {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    @media #{$md} {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 32px;
+    }
+    @media #{$xs} {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    @media #{$sm} {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 32px;
+    }
+}
+.counter-box {
+    padding: 35px 28px 25px 28px;
+    margin-bottom: 30px;
+    @media #{$md} {
+        padding: 35px 15px 25px 15px;
+    }
+    & h2 {
+        font-size: 50px;
+        margin-bottom: 15px;
+        & b {
+            font-size: 22px;
+        }
+    }
+
+    & h3 {
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+} 
+
+.cb-1 {
+    background-color: #FEFAF7;
+}
+.cb-3 {
+    background-color: #F4FCFA;
+    @media #{$md} {
+        margin-top: 0;
+    }
+    @media #{$xs} {
+        margin-top: 0;
+    }
+}
+
+
+//how-increase-profit
+.profit-shape {
+    position: absolute;
+    z-index: 1;
+    &.pashape-1 {
+        right: 16%;
+        bottom: 16%;
+    }
+    &.pashape-2 {
+        right: 9.5%;
+        bottom: 14%;
+        animation: float-bob-y infinite 5s linear;
+    }
+    &.pashape-2 {
+        right: 9%;
+        bottom: 9%;
+        animation: float-bob-y infinite 5s linear;
+    }
+    &.pashape-3 {
+        right: 4%;
+        bottom: 7%;
+    }
+    &.pashape-4 {
+        right: 0;
+        bottom: 24%;
+    }
+}
+
+
+.services-wrapper {
+    & .section-title{
+        @media #{$lg} {
+            padding-left: 0;
+        }
+        @media #{$md} {
+            padding-left: 0;
+        }
+        @media #{$xs} {
+            padding-left: 0;
+        }
+    }
+}
+
+.services-selers-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 48%;
+    height: 685px;
+    @media #{$xxl} {
+        top: 95px;
+    }
+    @media #{$laptop} {
+        top: 210px;
+    }
+    @media #{$lg} {
+        top: 200px;
+    }
+    @media #{$md} {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        margin-bottom: 150px;
+    }
+    @media #{$xs} {
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin-bottom: 100px;
+    }
+    @media #{$lg} {
+        top: 200px;
+    }
+   & .pashape-5 {
+       position: absolute;
+       right: -22px;
+       bottom: -12px;
+       z-index: -1;
+       animation: rotation infinite 5s linear;
+   }
+   & .pashape-6 {
+       position: absolute;
+       right: -66px;
+       bottom: -30px;
+       z-index: -1;
+       animation: float-bob-y infinite 3s linear;
+   }
+}
+
+
+//c-services2
+.service-shape2 {
+    position: absolute;
+    z-index: 1;
+    &.service-1 {
+        right: 5%;
+        top: 34%;
+        z-index: -1;
+    }
+}
+.c-service2 {
+    background: $white;
+    box-shadow: 0px 0px 26px rgba(215, 212, 212, 0.35);
+    padding:50px 35px 0px 35px;
+    // border: 2px solid transparent;
+    @include transition(0.3s);
+    @media #{$sm} {
+        padding: 50px 10px 0px 10px;
+    }
+    & .c-services__icon {
+        @include equal-size(78px);
+        border: 0;
+        position: relative;
+        z-index: 1;
+        &::before {
+            content: '';
+            position: absolute;
+            background-color: #F1F1F1;
+            @include equal-size(90px);
+            border-radius: 50%;
+            left: -5px;
+            top: 15px;
+            z-index: -1;
+            @include transition(0.3s);
+        }
+    }
+   & p {
+        @media #{$sm} {
+           font-size: 16px;
+        }
+    }
+    &.active {
+         border-color: $heding;
+         padding-bottom: 57px;
+    }
+    &:hover {
+        .c-services__icon {
+            border: 0;
+            &::before {
+                transform: scale(1.3);
+            }
+        }
+        
+    }
+}
+
+.c-services-box {
+    padding-bottom: 28px;
+    border: 2px solid transparent;
+    @include transition(.2s);
+    margin-bottom: 30px;
+    &:hover {
+         border-color: $heding;
+         background: $white;
+         box-shadow: 0px 0px 26px rgba(215, 212, 212, 0.35);
+         .c-service2 {
+             box-shadow: none;
+         }
+    }
+}
+
+
+.service-shape-v2 {
+    position: absolute;
+    z-index: 1;
+    &.service-1 {
+        right: 9.89%;
+        top: 42%;
+        animation: float-bob-y infinite 5s linear;
+    }
+    &.service-2 {
+        right: 92px;
+        top: -98px;
+        z-index: 2;
+        @media #{$laptop} {
+            top: -178px;
+        }
+    }
+}
+
+//value-added-services
+.value-shape {
+    position: absolute;
+    z-index: 1;
+    &.vshape-1 {
+         top: 12%;
+         right: 8.75%;
+         animation: float-bob-y infinite 4s linear;
+         -webkit-animation: float-bob-y infinite 4s linear;
+}
+    &.vshape-2 {
+         top: 24%;
+         left: 6.19%;
+         animation: float-bob-y infinite 3s linear;
+         -webkit-animation: float-bob-y infinite 3s linear;
+}
+}
+.value-added-content {
+    padding-right: 60px;
+    padding-left: 28px;
+     @media #{$lg} {
+         padding-right: 0;
+         padding-left: 0;
+     }
+     @media #{$md} {
+         padding-right: 0;
+         padding-left: 0;
+     }
+     @media #{$xs} {
+         padding-right: 0;
+         padding-left: 0;
+     }
+    .section-title {
+        padding-right: 100px;
+        @media #{$lg} {
+            padding-right: 0;
+        }
+        @media #{$md} {
+            padding-right: 0;
+        }
+        @media #{$xs} {
+            padding-right: 0;
+        }
+    }
+}
+
+.added-list {
+    li {
+        color: $body-text-color;
+        font-size: 16px;
+        padding-left: 22px;
+        margin-bottom: 9px;
+        position: relative;
+        z-index: 1;
+        @media #{$lg} {
+            font-size: 14px;
+        }
+
+        &::before {
+            content: '\f00c';
+            position: absolute;
+            font-family: "Font Awesome 5 pro";
+            font-size: 16px;
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+    }
+}
+
+//air-freight-services
+.text-list-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0px;
+    @media #{$xs} {
+        display: block;
+    }
+     @media #{$sm} {
+         display: grid;
+     }
+}
+
+.shipment-time {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 30px;
+    @media #{$xs} {
+        display: block;
+    }
+    @media #{$sm} {
+        display: grid;
+    }
+    .box-one {
+        background-color: #FEFAF7;
+        border-radius: 5px;
+        padding: 35px 30px 40px 32px;
+        .box-title {
+            font-size: 50px;
+            @media #{$xs} {
+                font-size: 26px;
+            }
+        }
+    }
+    .box-2 {
+       background-color: #e7f4f7;
+    }
+}
+.shipment-time-content {
+     @media #{$lg} {
+         padding-right: 0;
+     }
+
+     @media #{$md} {
+         padding-right: 0;
+     }
+
+     @media #{$xs} {
+         padding-right: 0;
+     }
+}
+.shipment-content-img {
+    position: relative;
+    z-index: 2;
+    @media #{$lg} {
+        padding-left: 0;
+    }
+    @media #{$md} {
+        padding-left: 0;
+    }
+    @media #{$xs} {
+        padding-left: 0;
+    }
+}
+
+.air-shape {
+    position: absolute;
+    z-index: 1;
+    &.shape_01 {
+        left: 120px;
+        top: 22%;
+        animation: rotation infinite 5s linear;
+    }
+    &.shape_02 {
+        right: -16px;
+        top: -20px;
+        transform: rotate(40deg);
+    }
+}
+

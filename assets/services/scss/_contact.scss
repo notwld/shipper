@@ -1,0 +1,159 @@
+//call-to-action
+.call-to-action {
+    position: relative;
+}
+.cta-border {
+    border: 2px solid $heding;
+    padding: 25px 70px 0;
+    position: relative;
+    z-index: 2;
+    @media #{$md} {
+        padding:25px 15px 0;
+    }
+    @media #{$xs} {
+        padding: 25px 15px 0;
+    }
+}
+.cta-shape {
+    position: absolute;
+    z-index: 1;
+    &.cta-one {
+        left: 211px;
+        top: 95px;
+        z-index: -2;
+        @media #{$lg} {
+            top: 40px;
+        }
+        @media #{$md} {
+            width: 30%;
+            top: 60px;
+        }
+    }
+    &.cta-two {
+        right: 115px;
+        top: 150px;
+    }
+}
+
+
+.cta-title {
+    h2 {
+        font-size: 48px;
+        line-height: 1.2;
+        margin-bottom: 38px;
+        @media #{$lg} {
+            font-size: 36px;
+        }
+        @media #{$md} {
+            font-size: 32px;
+        }
+        @media #{$xs} {
+            font-size: 26px;
+        }
+    }
+}
+
+
+//copic-contact
+.contact-shape {
+    position: absolute;
+    z-index: 1;
+    &.contact-one {
+        left: 98px;
+        bottom: 198px;
+        animation: rotation infinite 3s linear;
+    }
+}
+
+
+.info-box {
+    .contact-title {
+        font-size: 30px;
+    }
+}
+.contact-wrapper {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom center;
+}
+.contact-form-1 {
+     input, textarea {
+         border: 0;
+         padding: 0;
+         border-bottom: 1px solid $heding;
+         background-color: transparent;
+         width: 100%;
+         font-size: 16px;
+         text-transform: uppercase;
+         padding-bottom: 18px;
+         position: relative;
+         resize: none;
+     }
+     textarea {
+         height: 120px;
+         display: block;
+         width: 100%;
+     }
+}
+
+.comment-form {
+    .form-group {
+        label {
+            color: $heding;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        input {
+            color: rgba(24, 21, 44, 0.5);
+            font-size: 15px;
+            text-transform: capitalize;
+            background-color: #f7f7f6;
+            height: 55px;
+            border: 0;
+            line-height: 52px;
+            padding: 0;
+            padding-left: 12px;
+        }
+
+        textarea {
+            color: rgba(24, 21, 44, 0.5);
+            font-size: 15px;
+            text-transform: capitalize;
+            background-color: #f7f7f6;
+            height: 190px;
+            border: 0;
+            padding: 0;
+            padding-left: 12px;
+            padding-top: 22px;
+            resize: none;
+        }
+    }
+    .form-check {
+        .form-check-input {
+            margin-top: 4px;
+            margin-right: 13px;
+        }
+    } 
+}
+
+
+.contact-shape {
+    &.contact-two {
+        right: 96px;
+        bottom: 62px;
+        animation: float-bob-y infinite 4s linear;
+    }
+} 
+
+.cta-shape {
+    &.cta-service1 {
+        left: 211px;
+        top: 0;
+        z-index: -2;
+    }
+    &.cta-service2 {
+        top: 25px;
+    }
+} 

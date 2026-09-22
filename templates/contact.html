@@ -1,0 +1,232 @@
+{% extends "_layout.html" %}
+
+{% block title %}Contact Us | Be My Shipper – Get Support and Assistance{% endblock %}
+{% block description %}Need help? Contact Be My Shipper for inquiries, support, and partnerships. Our team is ready to assist you with all your shipping needs and questions.{% endblock %}
+{% block style %}
+<style>
+    .contact-section {
+        padding: 80px 0;
+    }
+
+    .contact-header {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .contact-header li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .contact-header i {
+        margin-right: 10px;
+    }
+
+    .formBox {
+        padding: 10% 5% 5% 5%;
+        border-radius: 15px;
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+    }
+
+    #loader img {
+        width: 50px;
+        height: 50px;
+    }
+
+    #toast {
+        animation: fadeInOut 4s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+        0% {
+            opacity: 0;
+        }
+
+        10%,
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h1 class="text-center wow fadeInUp" style="padding: 7%; font-size: 70px; height: 150px">Contact Us</h1>
+<section class="pad-tb min-h">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-7 ps-4 wow fadeInUp">
+                <!-- <ul class="contact-header mb-4">
+                     <li><i class="fa fa-square fa-xs me-4"></i> <h2>CONTACT US</h2></li>
+               </ul> -->
+                <h2 class="mb-4">Get in Touch With Us</h2>
+                <p class="mb-4">At Be My Shipper, we are always here to help with your shipping needs. Whether you are
+                    looking for shipping near you, need expedited shipping, or want to know how long does standard
+                    shipping take, our team is ready to assist you.</p>
+                <p class="mb-4">We offer a variety of services, including the cheapest international shipping from USA,
+                    FOB shipping, and luggage storage near me. If you have any questions about our services or need help
+                    finding the cheapest shipping service, we are happy to help!</p>
+
+                <hr class="divider mb-5">
+                <h2 class="mb-4">Need More Information?</h1>
+                    <p class="mb-4">
+                        If you are wondering about services like luggage storage near me or need help with FOB shipping,
+                        just get in touch. We're here to make shipping as simple and affordable as possible.
+                    </p>
+
+                    <div class="contact-info">
+                        <div class="me-2" style="">
+                            <i class="fa fa-envelope p-3 rounded-circle" style="background-color: #ddd"></i>
+                        </div>
+                        <div class=""> Send us an email <br><span style="color: #777">info@bemyshipper.com</span></div>
+                    </div>
+                    <div class="contact-info mt-5">
+                        <div class="me-2" style="">
+                            <i class="fa fa-phone p-3 rounded-circle" style="background-color: #ddd"></i>
+                        </div>
+                        <div class=""> Call our number <br><span style="color: #777">1 (703) 975-6454</span></div>
+                    </div>
+            </div>
+            <div class="col-md-5">
+                <div class="formBox wow fadeInUp bg-dark">
+                    <div>
+                        <form class="formField" id="contactForm">
+                            <div class="container">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" name="first_name" id="floatingInput"
+                                                placeholder="First Name">
+                                            <label for="floatingInput">First Name</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" name="last_name" id="floatingInput"
+                                                placeholder="Last Name">
+                                            <label for="floatingInput">Last Name</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" name="email" id="floatingInput"
+                                                placeholder="Email">
+                                            <label for="floatingInput">Email</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="phone" class="form-control" name="phone" id="floatingInput"
+                                                placeholder="Phone">
+                                            <label for="floatingInput">Phone</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <textarea class="form-control" name="message" placeholder="Your Message"
+                                                id="floatingTextarea" style="height: 200px;"></textarea>
+                                            <label for="floatingTextarea">Your Message</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <input type="submit" value="Submit">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Loader -->
+                        <div id="loader"
+                            style="display: none; position: fixed; top: 35%; left: 75%; transform: translate(-50%, -50%);">
+                            <img src="https://i.gifer.com/ZKZg.gif" alt="Loading animation" style="width: 50px; height: 50px;">
+                        </div>
+
+                        <!-- Toast Notification -->
+                        <div id="toast"
+                            style="position: fixed; top: 20px; right: 20px; display: none; background: #333; color: #fff; padding: 10px 20px; border-radius: 5px; z-index: 1000;">
+                            <span id="toast-message"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div
+                    style="padding: 60px;text-align: center;background: #fff;margin: 60px 0;border-radius: 7px;box-shadow: 0px 0px 10px 6px #ffffff1c;">
+                    <h2 class="mb-4">Get Started Today</h2>
+                    <p class="mb-4">Start shipping smarter with Be My Shipper. We look forward to helping you with all
+                        your shipping needs!</p>
+                    <div class="d-flex j-center">
+                        <div class="wow fadeInUp"
+                            style="animation-delay: 550ms; visibility: visible; animation-name: fadeInUp;">
+                            <a href="/select-service"><button class="btn btn-a w170 about-button">Start Shipping
+                                    Now</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#contactForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent the form from refreshing the page
+            $('#loader').show(); // Show loader
+
+            // Serialize form data
+            var formData = $(this).serialize();
+
+            // AJAX request
+            $.ajax({
+                url: '/', // Your route to handle the form submission
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    $('#loader').hide(); // Hide loader
+                    showToast(response.message, 'success'); // Success toast
+                    $('#contactForm')[0].reset(); // Reset form
+                    // $('#responseMessage').html('<p style="color: green;">' + response.message + '</p>');
+                    //$('#contactForm')[0].reset(); // Reset form fields
+                },
+                error: function (xhr) {
+                    $('#loader').hide(); // Hide loader
+                    var errorMessage = xhr.responseJSON.message || 'Something went wrong.';
+                    showToast(errorMessage, 'error'); // Error toast
+                    //$('#responseMessage').html('<p style="color: red;">' + xhr.responseJSON.message + '</p>');
+                    //showToast(errorMessage, 'error'); // Error toast
+                }
+            });
+        });
+    });
+
+    // Toast function
+    function showToast(message, type) {
+        var toast = $('#toast');
+        var toastMessage = $('#toast-message');
+
+        toastMessage.text(message);
+        toast.css('background', type === 'success' ? '#28a745' : '#dc3545');
+
+        toast.fadeIn();
+
+        setTimeout(function () {
+            toast.fadeOut();
+        }, 4000);
+    }
+</script>
+{% endblock %}

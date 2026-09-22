@@ -1,0 +1,98 @@
+{% extends "_layout.html" %}
+
+{% block title %}FAQs | Be My Shipper – Answers to Your Shipping Questions{% endblock %}
+{% block description %}Have questions? Find answers to common shipping inquiries. Learn how Be My Shipper provides safe, affordable, and reliable delivery solutions worldwide.{% endblock %}
+{% block style %}
+<style>
+    .about-section {
+        padding: 80px 0;
+    }
+
+    .about-header {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .about-header li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .about-header i {
+        margin-right: 10px;
+    }
+
+    i {
+        color: #777;
+    }
+
+    .formBox {
+        padding: 10% 5% 5% 5%;
+        border-radius: 0;
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h1 class="text-center wow fadeInUp" style="padding: 7%; font-size: 70px; height: 300px">FAQ</h1>
+<section class="pad-tb" style="background-color: #F0F0F0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- First Section -->
+                <div>
+                    <h2 style="font-size: 20px; background-color: white; cursor: pointer"
+                        class="dropdown-header mb-2 rounded-pill p-3" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="false">
+                        How Long Does Standard Shipping Take? <i class="fas fa-chevron-down float-end"></i>
+                    </h2>
+                    <div id="collapseOne" class="collapse px-2" style="color: #777">
+                        <p>Standard shipping usually takes 5–10 business days, depending on the distance and service.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Second Section -->
+                <div>
+                    <h2 style="font-size: 20px; background-color: white; cursor: pointer"
+                        class="dropdown-header mb-2 rounded-pill p-3" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false">
+                        Which Shipping Service is Cheapest? <i class="fas fa-chevron-down float-end"></i>
+                    </h2>
+                    <div id="collapseTwo" class="collapse px-2" style="color: #777">
+                        <p>Our platform connects you with travelers offering the most affordable shipping rates based on
+                            your needs. </p>
+                    </div>
+                </div>
+
+                <!-- Third Section -->
+                <div>
+                    <h2 style="font-size: 20px; background-color: white; cursor: pointer"
+                        class="dropdown-header mb-2 rounded-pill p-3" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false">
+                        What is FOB Shipping? <i class="fas fa-chevron-down float-end"></i>
+                        </h2>
+                    <div id="collapseThree" class="collapse px-2" style="color: #777">
+                        <p>FOB (Free on Board) shipping refers to the point where the seller transfers responsibility
+                            for the goods to the buyer. We help clarify and simplify these arrangements.
+                            <br><br>
+                            Start your journey with Be My Shipper today and discover smarter, more affordable ways to
+                            ship, store, and return your items!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+    </div>
+
+</section>
+{% endblock %}

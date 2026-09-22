@@ -1,0 +1,207 @@
+{% extends "_layout.html" %}
+{% block title %}Traveler Trips | Be My Shipper – Affordable Global Shipping{% endblock %}
+{% block description %}Find travelers with extra luggage space and ship your items affordably. Be My Shipper connects senders with trusted travelers for secure global shipping.{% endblock %}
+{% block content %}
+<section class="pad-tb">
+    <div class="container">
+        <div class="title mbtm30 text-center">
+            <h2>List Of <span>Trips</span></h2>
+        </div>
+
+        <!-- Edit Trip Modal -->
+        <div class="modal fade" id="editTripModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Trip</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editTripForm">
+                            <input type="hidden" id="editTripId">
+                            <div class="mb-3">
+                                <label for="editTravelDate" class="form-label">Travel Date</label>
+                                <input type="date" class="form-control" id="editTravelDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editWeight" class="form-label">Luggage Weight (kg)</label>
+                                <input type="number" step="0.1" class="form-control" id="editWeight" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-a">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filters mb-4">
+            <form method="GET" class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="from" placeholder="Departure Location"
+                        value="{{ request.args.get('from', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="to" placeholder="Arrival Location"
+                        value="{{ request.args.get('to', '') }}">
+                </div>
+                <div class="col-md-2">
+                    <input type="date" class="form-control" name="date" value="{{ request.args.get('date', '') }}">
+                </div>
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="verified" id="verifiedOnly" {% if
+                            request.args.get('verified') %}checked{% endif %}>
+                        <label class="form-check-label" for="verifiedOnly">
+                            Verified Users Only
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-a">Filter</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Trips List -->
+        <div class="row">
+            {% if trips %}
+            {% for trip in trips %}
+            {% if trip.status == 'active' %}
+            <div class="col-md-6">
+                <a href="/trip/{{ trip.id }}">
+                    <div class="travelers">
+                        <div class="top">
+                            <div class="avatar">
+                                <img src="{% if trip.user.profile_picture %}{{ url_for('static', filename='uploads/' + trip.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="Profile picture of {{ trip.user.first_name }} {{ trip.user.last_name }}">
+                                <div class="name" style="display: flex; align-items: center;">
+                                    <h3>{{ trip.user.first_name }} {{ trip.user.last_name }}</h3>
+                                    {% if trip.user.badge_status == 'active' %}
+                                    <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                        alt="Verified Badge"
+                                        style="width: 20px; object-fit: contain; margin-left: 5px; margin-bottom: 2px;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="luggage">
+                                <p>luggage capacity</p>
+                                <span>{{ trip.weight }}kg</span>
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="Direction Arrow">
+                        </div>
+                        <div class="bottom">
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Departure location</p>
+                                    <h3>{{ trip.traveling_from }}</h3>
+                                    <p>{{ trip.traveling_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="plane">
+                                <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="Airplane Icon">
+                            </div>
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Destination</p>
+                                    <h3>{{ trip.traveling_to }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        {% if trip.user.id == current_user.id %}
+                        <div class="bottom">
+                            <button onclick="editTrip({{ trip.id }}, '{{ trip.traveling_date.strftime('%Y-%m-%d') }}', {{ trip.weight }})" class="btn-a me-2">
+                                Edit Trip
+                            </button>
+                            <a href="/trip/update-status/{{ trip.id }}/inactive" class="btn-a">
+                                Mark as Inactive
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if trip.user.id != current_user.id %}
+                        <div class="bottom">
+                            <a href="/contact-trip-creator/{{ trip.id }}" class="btn-a">Contact</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <p class="text-center font-semibold">No Trips Found</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastMessage"></div>
+        </div>
+    </div>
+</section>
+
+{% block scripts %}
+<script>
+function editTrip(tripId, travelDate, weight) {
+    document.getElementById('editTripId').value = tripId;
+    document.getElementById('editTravelDate').value = travelDate;
+    document.getElementById('editWeight').value = weight;
+    
+    new bootstrap.Modal(document.getElementById('editTripModal')).show();
+}
+
+document.getElementById('editTripForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const tripId = document.getElementById('editTripId').value;
+    const travelDate = document.getElementById('editTravelDate').value;
+    const weight = document.getElementById('editWeight').value;
+    
+    try {
+        const response = await fetch(`/trip/update/${tripId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                traveling_date: travelDate,
+                weight: weight
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showNotification(data.message, 'success');
+            setTimeout(() => window.location.reload(), 1500);
+        } else {
+            showNotification(data.error, 'error');
+        }
+    } catch (error) {
+        showNotification('Failed to update trip', 'error');
+    }
+});
+
+function showNotification(message, type = 'success') {
+    const toast = document.getElementById('notificationToast');
+    const toastMessage = document.getElementById('toastMessage');
+    
+    toastMessage.textContent = message;
+    toastMessage.className = `toast-body ${type === 'success' ? 'bg-success' : 'bg-danger'} text-white`;
+    
+    const bsToast = new bootstrap.Toast(toast);
+    bsToast.show();
+}
+</script>
+{% endblock %}
+{% endblock %}

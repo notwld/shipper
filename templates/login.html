@@ -1,0 +1,70 @@
+{% extends "_layout.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="pad-tb min-h">
+   <div class="container">
+      <div class="row a-center">
+         <div class="col-md-6 text-center wow fadeIn">
+            <div class="mb-3">
+               <img src="/assets/frontend/images/regimg.png" alt="Create new trip illustration">
+            </div>
+            <div class="title mbtm30 text-center">
+               <h2 class="text-t-none">Login Page</h2>
+            </div>
+            <div>
+               <img src="/assets/frontend/images/revs.png" alt="Reviewers illustration">
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="formBox wow fadeInUp">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="title mbtm30 text-center">
+                        <h2 class="text-t-none text-left">Sign in</h2>
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <div class="para mbtm30">
+                        <p>Don't have an account? <a href="/register">Sign up</a></p>
+                     </div>
+                  </div>
+               </div>
+               <div>
+                  <form class="formField" action="/login" method="POST">
+
+                     <div class="container">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="form-floating mb-3">
+                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                    required>
+                                 <label for="floatingInput">Email</label>
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="form-floating mb-3 show_hide_password" id="">
+                                 <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Password" required>
+                                 <a class="hideshow" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                 <label for="floatingInput">Password</label>
+
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="mb-4">
+                                 <a href="/forgot-password">Forgot password?</a>
+                              </div>
+                           </div>
+                           <div class="col-md-12 mb-3">
+                              <input type="submit" value="Login">
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+{% endblock %}

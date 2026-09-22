@@ -1,0 +1,23 @@
+{% extends '_layout.html' %}
+{% block title %}
+    {% block blog_title %}Blogs{% endblock %}
+
+{% endblock %}
+{% block description %}
+    {% block blog_description %}Blogs{% endblock %}
+{% endblock %}
+{% block content %}
+    <div class="container mt-5 mb-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/blogs">Blogs</a></li>
+                {% block breadcrumb_active %}
+                <li class="breadcrumb-item active" aria-current="page">All Posts</li>
+                {% endblock %}
+            </ol>
+        </nav>
+        
+        {% block blog_content %}{% endblock %}
+    </div>
+{% endblock %}

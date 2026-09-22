@@ -1,0 +1,67 @@
+//shpping-discounts
+.shipping-shape {
+    position: absolute;
+    z-index: 1;
+    &.sshape-1 {
+        left: 12.5%;
+        top: 32%;
+        animation: animationFramesTwo 15s infinite linear;
+    }
+    &.sshape-2 {
+        right: -55px;
+        bottom: 120px;
+        width: 385px;
+        height: 185px;
+        transform: rotateY(-180deg);
+
+    }
+} 
+.shipping-img-box {
+    position: relative;
+    & .img-one {
+        position: absolute;
+        left: 14%;
+        top: -6%;
+        @media #{$md} {
+            top: 0;
+        }
+    }
+}
+.bi-cycle {
+    max-width: 345px;
+    width: 100%;
+    min-height: 365px;
+    left: 14.5%;
+    right: 0;
+    margin: 0 auto;
+    top: 35px;
+    z-index: 3;
+    @media #{$xs} {
+        left: 8.5%;
+    }
+    & .img-three {
+        position: absolute;
+        left: -1.2%;
+        bottom: 3%;
+        animation: rotation infinite 5s linear;
+        @media #{$xs} {
+            left: -9.2%;
+        }
+    }
+
+    & .img-four {
+        position: absolute;
+        right: 10%;
+        bottom: 2.3%;
+        z-index: -1;
+        animation: rotation infinite 5s linear;
+        @media #{$xs} {
+            right: 2%;
+        }
+    }
+    & .img-five {
+        position: absolute;
+        bottom: 2%;
+        left: 0;
+    }
+}

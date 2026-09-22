@@ -1,0 +1,378 @@
+{% extends "_layout.html" %}
+{% block title %}Be My Shipper | Affordable and Reliable Global Shipping{% endblock %}
+{% block description %}Find affordable and reliable shipping with Be My Shipper. Connect with verified travelers and ship items safely, quickly, and cost-effectively worldwide.{% endblock %}
+{% block content %}
+<section class="mainbanner">
+    <div class="container">
+        <div class="row a-center">
+            <div class="col-md-6">
+                <div class="sectiontitle">
+                    <div class><span>Welcome to Be My Shipper</span></div>
+                    <h1>We Connect Senders and travelers who help each other access
+                        <span class="under">
+                            the world.
+                            <div class="lines">
+                                <img class="showline animdelay1" src="/assets/frontend/images/line1.svg" alt="Decorative underline"
+                                    style="margin-left: -30px;">
+                                <img class="showline animdelay2" src="/assets/frontend/images/line1.svg" alt="Decorative underline">
+                            </div>
+                        </span>
+                    </h1>
+                    <p>
+                        At Be My Shipper, we connect senders and travelers to create seamless, affordable, and
+                        convenient shipping experiences. Whether you're looking for shipping near you, expedited
+                        shipping, or "how long does standard shipping take?" our platform ensures a reliable solution
+                        tailored to your needs.
+                    </p>
+                    <p>
+                        Our innovative service brings people together, making shipping and luggage storage stress-free
+                        and cost-effective.
+                    </p>
+                </div>
+                <div class="d-flex">
+                    <div class="wow fadeInUp" style="animation-delay:550ms">
+                        <a href="/about">
+                            <button class="btn btn-a w170">read more</button>
+                        </a>
+                    </div>
+                    <div class="mL10 wow fadeInUp" style="animation-delay:800ms">
+                        <a href="/select-service#selectservice">
+                            <button class="btn btn-b w170">select service</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="wow fadeInRightBig banimg">
+                    <img src="/assets/frontend/images/hban.png" alt="BeMyShipper Banner Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pad-tb dots">
+    <div class="container">
+        <div class="title text-center mbtm30">
+            <h2>How <span>it works</span></h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="imagebox wow bounceIn" style="animation-delay:500ms">
+                    <div>
+                        <img src="/assets/frontend/images/w1.png" alt="Get Started Icon">
+                    </div>
+                    <div>
+                        <h3><span>Get</span> started with us</h3>
+                    </div>
+                    <div>
+                        <p>
+                            Whether you're seeking shipping near me or international options, create a request with your
+                            shipping or storage requirements.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="imagebox wow bounceIn" style="animation-delay:600ms">
+                    <div>
+                        <img src="/assets/frontend/images/w2.png" alt="Perfect Match Icon">
+                    </div>
+                    <div>
+                        <h3>Find the <span>Perfect Match</span></h3>
+                    </div>
+                    <div>
+                        <p>
+                            Our platform connects you with verified travelers, offering competitive rates for <b>which
+                                shipping service is cheapest</b> and ensuring reliable service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="imagebox wow bounceIn" style="animation-delay:700ms">
+                    <div>
+                        <img src="/assets/frontend/images/w3.png" alt="Ship With Confidence Icon">
+                    </div>
+                    <div>
+                        <h3>Ship, Store, or Return with <span>Confidence</span></h3>
+                    </div>
+                    <div>
+                        <p>
+                            From local <b>luggage storage near me</b> to global <b>expedited shipping</b>, enjoy peace
+                            of mind knowing your items are in safe hands.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pad-tb">
+    <div class="container">
+        <div class="title mbtm30 text-center">
+            <h2>List Of <span>Verified Travelers</span></h2>
+        </div>
+        <div class="row">
+            {% if trips %}
+            {% for trip in trips %}
+                <div class="col md-7">
+                    <a href="/trip/{{ trip.id }}">
+                        <div class="travelers">
+                            <div class="top">
+                                <div class="avatar">
+                                    <img src="{% if trip.user.profile_picture %}{{ url_for('static', filename='uploads/' + trip.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="Profile picture of {{ trip.user.first_name }} {{ trip.user.last_name }}">
+                                    <div class="name" style="display: flex; align-items: center;">
+                                        <h3>{{ trip.user.first_name }} {{ trip.user.last_name }}</h3>
+                                        {% if trip.user.badge_status == 'active' %}
+                                        <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                            alt="Verified Badge"
+                                            style="width: 20px; object-fit: contain; margin-left: 5px; margin-bottom: 2px;">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="luggage">
+                                    <p>luggage capacity</p>
+                                    <span>{{ trip.weight }}kg</span>
+                                </div>
+                            </div>
+                            <div class="divider">
+                                <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="Direction Arrow">
+                            </div>
+                            <div class="bottom">
+                                <div class="txt">
+                                    <div class="name">
+                                        <p>Departure location</p>
+                                        <h3>{{ trip.traveling_from }}</h3>
+                                        <p>{{ trip.traveling_date.strftime('%B %d, %Y') }}</p>
+                                    </div>
+                                </div>
+                                <div class="plane">
+                                    <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="Airplane Icon">
+                                </div>
+                                <div class="txt">
+                                    <div class="name">
+                                        <p>Destination</p>
+                                        <h3>{{ trip.traveling_to }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-center font-semibold">No Trips Found</p>
+            {% endif %}
+        </div>
+        <div class="mt-5 text-center">  
+            <a href="/trips" class="btn btn-a">See All Trips</a>
+        </div>
+    </div>
+</section>
+<section class="pad-tb gray">
+    <div class="container">
+        <div class="row a-center">
+            <div class="col-md-6">
+                <div class="title mbtm30">
+                    <h2><span>Affordable </span> Shipping Made <span>Easy</span></h2>
+                </div>
+                <div class="para mbtm30">
+                    <p>
+                        Looking for the <b>cheapest international shipping from the USA?</b> Our service helps you
+                        bypass expensive courier fees by partnering with travelers who have extra luggage capacity.
+                        Whether it's personal items, business goods, or a return, we provide affordable and practical
+                        shipping options.
+                    </p>
+                </div>
+                <div class="wow fadeInUp mt20" style="animation-delay:550ms">
+                    <a href="/select-service#selectservice">
+                        <button class="btn btn-a w170">See Travelers</button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 mtb-60">
+                <div class="posrelative">
+                    <div id="container">
+                        <div class="item"><img src="/assets/frontend/images/dsw.png" alt="DSW Logo"></div>
+                        <div class="item"><img src="/assets/frontend/images/puma.png" alt="Puma Logo"></div>
+                        <div class="item"><img src="/assets/frontend/images/alo.png" alt="Alo Logo"></div>
+                        <div class="item"><img src="/assets/frontend/images/cb2.png" alt="CB2 Logo"></div>
+                        <div class="item"><img src="/assets/frontend/images/levis.png" alt="Levis Logo"></div>
+                        <div class="item"><img src="/assets/frontend/images/omega.png" alt="Omega Logo"></div>
+                    </div>
+                    <div class="centerimg">
+                        <img src="/assets/frontend/images/circlecircle.png" alt="Circular Design Element">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pad-tb">
+    <div class="container">
+        <div class="title mbtm30 text-center mbtm60">
+            <h2>
+                What is the Best <span>Option</span> for You?
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="iconbox wow bounceIn" style="animation-delay:500ms">
+                    <div>
+                        <img src="/assets/frontend/images/box.png" alt="Expedited Shipping Icon">
+                    </div>
+                    <div>
+                        <h3>
+                            <span>Expedited </span><br>
+                            Shipping
+                        </h3>
+                    </div>
+                    <div>
+                        <p>
+                            Perfect for time-sensitive deliveries
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="iconbox wow bounceIn" style="animation-delay:600ms">
+                    <div>
+                        <img src="/assets/frontend/images/office.png" alt="Standard Shipping Icon">
+                    </div>
+                    <div>
+                        <h3>
+                            <span>Standard </span><br>
+                            Shipping
+                        </h3>
+                    </div>
+                    <div>
+                        <p>
+                            Ideal for cost-effective solutions
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="iconbox wow bounceIn" style="animation-delay:700ms">
+                    <div>
+                        <img src="/assets/frontend/images/refund.png" alt="FOB Shipping Icon">
+                    </div>
+                    <div>
+                        <h3>
+                            <span>FOB</span><br>
+                            Shipping
+                        </h3>
+                    </div>
+                    <div>
+                        <p>
+                            A great choice for businesses needing clear terms on shipping responsibilities
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pad-tb gray">
+    <div class="container">
+        <div class="row a-center">
+            <div class="col-md-12">
+                <div class="w-75 m-auto">
+                    <div class="title mbtm30 text-center">
+                        <h2>When commitments fall short, Get your money back without any hassle</h2>
+                    </div>
+                    <div class="para mbtm30 text-center">
+                        <p>
+                            Returning online purchases has never been easier. Forget about packaging and printing, avoid
+                            unnecessary post office trips, and ensure you never miss refunds again. Our service also
+                            offers convenient luggage storage solutions for travelers on the go, making us your go-to
+                            resource for luggage storage near you.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pad-tb gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="title mbtm30 wow fadeIn mt20" style="animation-delay:550ms">
+                    <h2>Why Choose <br><span>Be My Shipper</span>?</h2>
+                </div>
+                <div class="para mbtm30 wow fadeIn mt20" style="animation-delay:600ms">
+                    <p>1. Cost-Effective Solutions: Whether you're exploring which shipping service is cheapest or
+                        seeking international shipping options, we provide affordable rates.</p>
+                    <p>2. Convenience: Find shipping near me or arrange global deliveries with ease.</p>
+                    <p>3. Verified Travelers: Trustworthy connections to ensure your items are delivered safely and on
+                        time.</p>
+                </div>
+                <div class="wow fadeInUp mt20" style="animation-delay:550ms">
+                    <a href="/contact"><button class="btn btn-a w170">Contact Us</button></a>
+                </div>
+            </div>
+            <div class="col-md-3 accbg">
+
+            </div>
+            <div class="col-md-5">
+                <div class="accordion faqs wow fadeIn mt20" style="animation-delay:800ms"
+                    id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                How Long Does Standard Shipping Take?
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                            aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                Standard shipping usually takes 5–10 business days, depending on the distance and
+                                service.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseTwo">
+                                Which Shipping Service is Cheapest?
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                Our platform connects you with travelers offering the most affordable shipping rates
+                                based on your needs.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
+                                What is FOB Shipping?
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body">
+                                FOB (Free on Board) shipping refers to the point where the seller transfers
+                                responsibility for the goods to the buyer. We help clarify and simplify these
+                                arrangements.
+                                <br><br>
+                                Start your journey with Be My Shipper today and discover smarter, more affordable ways
+                                to ship, store, and return your items!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "_layout.html" %}
+
+{% block title %}
+Payment Success
+{% endblock %}
+{% block style %}
+<style>
+    .successec {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 70vh;
+        flex-direction: column;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<section class="pad-tb min-h">
+    <div class="container">
+        <div class="successec">
+            <div class="mtb15 wow bounceIn">
+                <img style="width:100px" src="/assets/frontend/images/check.png" alt="Checkmark Icon">
+            </div>
+            <div class="title mtb15">
+                <h2>Payment Successful</h2>
+            </div>
+            <div class="title">
+                <p>Thank you for your purchase. Your payment was successful. You will receive an email confirmation
+                    shortly.</p>
+                <p>Dial
+                    <a style="margin:0 5px;color:#F03A47" href="tel:1-703-975-6454">1 (703) 975-6454</a>
+                    if you have any questions or concerns.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function showPay() {
+        var x = document.getElementById("payButton");
+        var y = document.getElementById("confirmButton");
+        var z = document.getElementById("membershipCard");
+        var n = document.getElementById("cardPlaceholder");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "block";
+            y.innerHTML = "Confirmed";
+            y.disabled = true;
+            z.style.border = "3px solid #3590d4"
+            n.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

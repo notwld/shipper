@@ -1,0 +1,179 @@
+{% extends "_layout.html" %}
+
+{% block title %}Create a Order{% endblock %}
+
+{% block content %}
+<section class="pad-tb min-h">
+    <div class="container">
+        <div class="row a-center">
+            <div class="col-md-6 text-center wow fadeIn">
+                <div class="mb-3">
+                    <img src="/assets/frontend/images/regimg.png" alt="Create new trip illustration">
+                </div>
+                <div class="title mbtm30 text-center">
+                    <h2 class="text-t-none">Plan order page</h2>
+                </div>
+                <div>
+                    <img src="/assets/frontend/images/revs.png" alt="Reviewers illustration">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="formBox wow fadeInUp">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title mbtm30 text-center">
+                                <h2 class="text-t-none text-left">Place an order</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <form class="formField" enctype="multipart/form-data" action="/create-order" method="POST">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" id="receive_earliest_date"
+                                                name="receive_earliest_date"
+                                                placeholder="Earliest Date To Receive Your Order" required>
+                                            <label for="receive_earliest_date">Earliest Date To Receive Your
+                                                Order</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" id="receive_last_date"
+                                                name="receive_last_date" placeholder="Last Date To Receive Your Order"
+                                                required>
+                                            <label for="receive_last_date">Last Date To Receive Your Order</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <select class="js-example-basic-single form-select" name="departure">
+                                                <option value="new-york">Where Would You Like To Order From?</option>
+                                            </select>
+
+                                            <!-- <label for="countries1">Where Would You Like To Order From?</label> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <select class="js-example-basic-single-1 form-select" name="arrival"
+                                                required>
+                                                <option value="new-york">Where Would You Like Your Order Delivered?
+                                                </option>
+                                            </select>
+                                            <!-- <label for="countries2">Where Would You Like Your Order Delivered?</label> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="space" name="space"
+                                                placeholder="How Much Space Do You Have?" required>
+                                            <label for="space">How Much Weight Do You Need?</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-4">
+                                            <textarea class="form-control" placeholder="Leave a comment here"
+                                                id="description" name="description" rows="4" cols="50"></textarea>
+                                            <label for="description">Comments</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class=" mb-3">
+                                            <label class="mb-3" for="floatingInput">Would You Like To Add Any
+                                                Pictures?</label>
+                                            <div class="d-flex j-space">
+                                                <div class="image-upload">
+                                                    <label for="file-input-1">
+                                                        <img id="preview-1" src="/assets/frontend/images/imgvector.png" alt="Image Vector">
+                                                    </label>
+                                                    <input id="file-input-1" type="file"
+                                                        onchange="previewImage(event, 1)" name="attachments[]" />
+                                                </div>
+                                                <div class="image-upload">
+                                                    <label for="file-input-2">
+                                                        <img id="preview-2" src="/assets/frontend/images/imgvector.png" alt="Image Vector">
+                                                    </label>
+                                                    <input id="file-input-2" type="file"
+                                                        onchange="previewImage(event, 2)" name="attachments[]" />
+                                                </div>
+                                                <div class="image-upload">
+                                                    <label for="file-input-3">
+                                                        <img id="preview-3" src="/assets/frontend/images/imgvector.png" alt="Image Vector">
+                                                    </label>
+                                                    <input id="file-input-3" type="file"
+                                                        onchange="previewImage(event, 3)" name="attachments[]" />
+                                                </div>
+                                                <div class="image-upload">
+                                                    <label for="file-input-4">
+                                                        <img id="preview-4" src="/assets/frontend/images/imgvector.png" alt="Image Vector">
+                                                    </label>
+                                                    <input id="file-input-4" type="file"
+                                                        onchange="previewImage(event, 4)" name="attachments[]" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input" type="checkbox" id="FieldsetCheck" required>
+                                            <label class="form-check-label" for="FieldsetCheck">
+                                                I agree with the <a href="/terms-and-conditions">Terms & Conditions</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <!-- <a href="order.php">                                        -->
+                                        <!-- </a> -->
+                                        <input type="submit" value="Submit">
+                                        <!-- <input type="button" value="Submit"> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('.js-example-basic-single, .js-example-basic-single-1').select2({
+            placeholder: 'Search for a city or country',
+            minimumInputLength: 2,
+            ajax: {
+                url: function(params) {
+                    return `http://api.geonames.org/searchJSON?q=${params.term}&maxRows=20&username=notwld`;
+                },
+                delay: 250,
+                processResults: function (data) {
+                    // Transform the data into Select2 format
+                    return {
+                        results: data.geonames.map(item => {
+                            const locationText = `${item.name}, ${item.countryName}`;
+                            return {
+                                id: locationText,  // Use the location text as the value
+                                text: locationText // Use the same text for display
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+
+    function previewImage(event, id) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('preview-' + id);
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+{% endblock %}

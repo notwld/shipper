@@ -1,0 +1,515 @@
+{% extends '_layout.html' %}
+{% block title %}Chat{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <input type="button" value="sound" hidden onclick="playMusic()" />
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="h-100">
+            <h1>Chat with {{ user.first_name }} {{ user.last_name }}</h1>
+            <button id="enableNotifications" class="btn btn-sm btn-outline-primary">Enable Sound Notifications</button>
+
+            <!-- <span id="userStatus" class="text-muted bg-green-100 p-1">Offline</span> -->
+            <span id="typingIndicator" class="text-muted" style="display: none; margin-left: 10px;">
+                {{ user.first_name }} is
+                typing...</span>
+        </div>
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Place an Order
+        </button>
+    </div>
+    <!-- Add this modal structure -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <form id="orderForm">
+                        <div class="mb-3">
+                            <label for="attributeType" class="form-label">Attribute Type</label>
+                            <select class="form-control" id="attributeType" required>
+                                <option value="">Select attribute type</option>
+                                <option value="weight">Weight</option>
+                                <option value="product">Product</option>
+                            </select>
+                        </div>
+
+                        <div id="weightFields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="weight" class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-control" id="weight" step="0.1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="pricePerKg" class="form-label">Price per kg ($)</label>
+                                <input type="number" class="form-control" id="pricePerKg" step="0.01">
+                            </div>
+                            <div class="mb-3">
+                                <label for="weightTotalPrice" class="form-label">Total Price ($)</label>
+                                <input type="number" class="form-control" id="weightTotalPrice" readonly>
+                            </div>
+                        </div>
+
+                        <div id="productFields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="productDetails" class="form-label">Product Details</label>
+                                <textarea class="form-control" id="productDetails" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="totalPrice" class="form-label">Total Price ($)</label>
+                                <input type="number" class="form-control" id="totalPrice" step="0.01">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitOrder">Submit Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="orderMessageTemplate" style="display: flex; justify-content: center;">
+        <div class="message-wrapper received">
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div class="message-bubble order-message"
+                    style="background-color: #f0f8ff; border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+                    <h6 class="mb-3">New Order Request</h6>
+                    <p class="attribute-type mb-2"></p>
+                    <p class="weight-info mb-2"></p>
+                    <p class="product-info mb-2"></p>
+                    <p class="price-info mb-2"></p>
+                    <div class="order-actions mt-3">
+                        <button class="btn btn-success btn-sm accept-order me-2">Accept</button>
+                        <button class="btn btn-danger btn-sm decline-order">Decline</button>
+                    </div>
+                    <p class="order-status mt-2" style="display: none;"></p>
+                </div>
+            </div>
+        </div>
+    </template>
+    <div class="chat-box border rounded p-3">
+        <div class="messages" id="messages" style="height: 400px; overflow-y: auto;">
+            {% for message in messages %}
+            <div class="message-wrapper {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
+                <div class="message-bubble">
+                    {{ message.content }}
+                    <small class="message-time">
+                        {{ message.created_at.strftime('%H:%M') }}
+                    </small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="input-group mt-3">
+            <input type="text" id="messageInput" class="form-control" placeholder="Type a message..."
+                aria-label="Type a message">
+            <button id="sendButton" class="btn" style="background-color: #FA0A47; color: white;" type="button">Send</button>
+        </div>
+    </div>
+</div>
+
+<!-- Include Socket.IO Client Library -->
+<script src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+    integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+    crossorigin="anonymous"></script>
+
+<style>
+    .chat-box {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
+
+    .messages {
+        padding: 15px;
+        background-color: white;
+        border-radius: 8px;
+    }
+
+    .message-wrapper {
+        display: flex;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .message-wrapper.sent {
+        justify-content: flex-end;
+    }
+
+    .message-wrapper.received {
+        justify-content: flex-start;
+    }
+
+    .message-bubble {
+        max-width: 70%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        position: relative;
+        word-wrap: break-word;
+    }
+
+    .sent .message-bubble {
+        background-color: #FA0A47;
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+
+    .received .message-bubble {
+        background-color: #e9ecef;
+        color: black;
+        border-bottom-left-radius: 5px;
+    }
+
+    .message-time {
+        font-size: 0.75rem;
+        opacity: 0.8;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .sent .message-time {
+        text-align: right;
+    }
+
+    .input-group {
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    #messageInput {
+        border-radius: 20px;
+        padding: 10px 20px;
+        margin-right: 10px;
+    }
+
+    #sendButton {
+        border-radius: 20px;
+        padding: 10px 25px;
+    }
+</style>
+
+<script>
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Audio setup
+        const audio = new Audio('/assets/notification.m4a');
+        let notificationsEnabled = false;
+
+        function playMusic() {
+            if (notificationsEnabled) {
+                audio.play().catch(error => {
+                    console.log("Audio play failed:", error);
+                });
+            }
+        }
+
+        const protocol = window.location.protocol;
+        const wsProtocol = protocol === 'https:' ? 'wss://' : 'ws://';
+        const host = window.location.host;
+        
+        // Configure socket with proper protocol
+        const socket = io(host, {
+            transports: ['websocket'],
+            secure: protocol === 'https:',
+            rejectUnauthorized: false,
+            path: '/socket.io'
+        });
+
+        // Debug socket connection
+        socket.on('connect', function () {
+            console.log('Socket connected');
+        });
+
+        socket.on('connect_error', function (error) {
+            console.log('Socket connection error:', error);
+        });
+
+        socket.on('order_error', function (data) {
+            console.log('Order error:', data);
+            alert('Error: ' + data.message);
+        });
+
+        // DOM Elements
+        const attributeType = document.getElementById('attributeType');
+        const weightFields = document.getElementById('weightFields');
+        const productFields = document.getElementById('productFields');
+        const submitOrder = document.getElementById('submitOrder');
+        const weight = document.getElementById('weight');
+        const pricePerKg = document.getElementById('pricePerKg');
+        const weightTotalPrice = document.getElementById('weightTotalPrice');
+        const messagesContainer = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const currentUserId = "{{ current_user.id }}";
+        const otherUserId = "{{ user.id }}";
+        let typingTimeout = null;
+
+        // Calculate total price for weight-based orders
+        function calculateWeightTotal() {
+            const weightVal = parseFloat(weight.value) || 0;
+            const priceVal = parseFloat(pricePerKg.value) || 0;
+            weightTotalPrice.value = (weightVal * priceVal).toFixed(2);
+        }
+
+        // Event Listeners
+        weight.addEventListener('input', calculateWeightTotal);
+        pricePerKg.addEventListener('input', calculateWeightTotal);
+
+        attributeType.addEventListener('change', function () {
+            weightFields.style.display = this.value === 'weight' ? 'block' : 'none';
+            productFields.style.display = this.value === 'product' ? 'block' : 'none';
+        });
+
+        submitOrder.addEventListener('click', function () {
+            const orderData = {
+                attribute_type: attributeType.value,
+                contact_id: "{{ contact.id }}",
+                recipient_id: "{{ user.id }}",
+                sender_id: currentUserId
+            };
+
+            if (attributeType.value === 'weight') {
+                orderData.weight = parseFloat(weight.value);
+                orderData.price_per_kg = parseFloat(pricePerKg.value);
+                orderData.total_price = parseFloat(weightTotalPrice.value);
+            } else {
+                orderData.product_details = document.getElementById('productDetails').value;
+                orderData.total_price = parseFloat(document.getElementById('totalPrice').value);
+            }
+
+            // Validate required fields
+            if (!orderData.total_price ||
+                (orderData.attribute_type === 'weight' && (!orderData.weight || !orderData.price_per_kg)) ||
+                (orderData.attribute_type === 'product' && !orderData.product_details)) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            console.log('Sending order:', orderData);
+            socket.emit('place_order', orderData);
+
+            // Reset form
+            document.getElementById('orderForm').reset();
+            weightFields.style.display = 'none';
+            productFields.style.display = 'none';
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+            modal.hide();
+        });
+
+        // Handle incoming orders
+        socket.on('receive_order', function (orderData) {
+            console.log('Received order:', orderData);
+            try {
+                const template = document.getElementById('orderMessageTemplate');
+                if (!template) {
+                    console.error('Order template not found');
+                    return;
+                }
+
+                const orderElement = template.content.cloneNode(true);
+                const messageContainer = orderElement.querySelector('.order-message');
+                if (!messageContainer) {
+                    console.error('Message container not found in template');
+                    return;
+                }
+
+                // Set order ID as data attribute
+                messageContainer.dataset.orderId = orderData.id;
+
+                // Safely update elements with null checks
+                const elements = {
+                    attributeType: messageContainer.querySelector('.attribute-type'),
+                    weightInfo: messageContainer.querySelector('.weight-info'),
+                    productInfo: messageContainer.querySelector('.product-info'),
+                    priceInfo: messageContainer.querySelector('.price-info'),
+                    orderActions: messageContainer.querySelector('.order-actions'),
+                    orderStatus: messageContainer.querySelector('.order-status')
+                };
+
+                // Check if all elements exist before proceeding
+                if (!Object.values(elements).every(el => el)) {
+                    console.error('One or more required elements not found in template');
+                    return;
+                }
+
+                elements.attributeType.textContent = `Order Type: ${orderData.attribute_type.toUpperCase()}`;
+
+                if (orderData.attribute_type === 'weight') {
+                    elements.weightInfo.textContent = `Weight: ${orderData.weight}kg @ $${orderData.price_per_kg}/kg`;
+                    elements.productInfo.style.display = 'none';
+                } else {
+                    elements.productInfo.textContent = `Product Details: ${orderData.product_details}`;
+                    elements.weightInfo.style.display = 'none';
+                }
+
+                elements.priceInfo.textContent = `Total Price: $${orderData.total_price}`;
+
+                // Show/hide order actions based on whether the current user is the recipient
+                if (orderData.recipient_id !== currentUserId) {
+                    elements.orderActions.style.display = 'none';
+                } else {
+                    const acceptBtn = elements.orderActions.querySelector('.accept-order');
+                    const declineBtn = elements.orderActions.querySelector('.decline-order');
+
+                    if (acceptBtn && declineBtn) {
+                        acceptBtn.addEventListener('click', function () {
+                            socket.emit('respond_to_order', {
+                                order_id: orderData.id,
+                                response: 'accepted'
+                            });
+                        });
+
+                        declineBtn.addEventListener('click', function () {
+                            socket.emit('respond_to_order', {
+                                order_id: orderData.id,
+                                response: 'declined'
+                            });
+                        });
+                    }
+                }
+
+                // Add to messages container and scroll
+                if (messagesContainer) {
+                    messagesContainer.appendChild(orderElement);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    playMusic();
+                }
+            } catch (error) {
+                console.error('Error handling order:', error);
+            }
+        });
+
+        // Handle order status updates
+        socket.on('order_status_update', function (data) {
+            console.log('Order status update:', data);
+            try {
+                const orderMessages = document.querySelectorAll('.order-message');
+                orderMessages.forEach(function (messageContainer) {
+                    if (messageContainer.dataset.orderId === String(data.order_id)) {
+                        const statusElement = messageContainer.querySelector('.order-status');
+                        const orderActions = messageContainer.querySelector('.order-actions');
+
+                        if (statusElement) {
+                            statusElement.style.display = 'block';
+                            statusElement.textContent = `Order ${data.status}, Please check your email and your history for details.`;
+                            statusElement.style.color = data.status === 'accepted' ? 'green' : 'red';
+                        }
+
+                        if (orderActions) {
+                            orderActions.style.display = 'none';
+                        }
+                    }
+                });
+                playMusic();
+            } catch (error) {
+                console.error('Error updating order status:', error);
+            }
+        });
+
+        // Typing indicator
+        messageInput.addEventListener('input', function () {
+            socket.emit('typing', {
+                user_id: currentUserId,
+                recipient_id: otherUserId,
+                is_typing: true
+            });
+
+            if (typingTimeout) clearTimeout(typingTimeout);
+
+            typingTimeout = setTimeout(() => {
+                socket.emit('typing', {
+                    user_id: currentUserId,
+                    recipient_id: otherUserId,
+                    is_typing: false
+                });
+            }, 1000);
+        });
+
+        socket.on('user_typing', function (data) {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (data.user_id === otherUserId) {
+                typingIndicator.style.display = data.is_typing ? 'inline' : 'none';
+            }
+        });
+
+        // Message handling functions
+        function addMessage(message, senderId = null) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = `message-wrapper ${senderId === currentUserId ? 'sent' : 'received'}`;
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+
+            const messageContent = document.createElement('span');
+            messageContent.textContent = message;
+
+            const messageTime = document.createElement('small');
+            messageTime.className = 'message-time';
+            messageTime.textContent = new Date().toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+
+            messageBubble.appendChild(messageContent);
+            messageBubble.appendChild(messageTime);
+            messageWrapper.appendChild(messageBubble);
+            messagesContainer.appendChild(messageWrapper);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Send message handling
+        sendButton.addEventListener('click', function () {
+            const message = messageInput.value.trim();
+            if (message) {
+                const recipientId = "{{ contact.recipient_id if current_user.id == contact.initiator_id else contact.initiator_id }}";
+
+                addMessage(message, currentUserId);  // This adds the message locally
+                socket.emit('send_message', {
+                    message: message,
+                    recipient_id: recipientId,
+                    sender_id: currentUserId
+                });
+                messageInput.value = '';
+            }
+        });
+
+        // Handle incoming messages
+        socket.on('receive_message', function (data) {
+            playMusic();
+            addMessage(data.message, data.sender_id);
+        });
+
+        // Enter key support
+        messageInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        // Enable notifications on first user interaction
+        document.addEventListener('click', function enableNotifications() {
+            notificationsEnabled = true;
+            document.removeEventListener('click', enableNotifications);
+        }, { once: true });
+
+        // Join chat room
+        socket.emit('join', {
+            user_id: currentUserId,
+            username: "{{ current_user.first_name }}"
+        });
+
+        // Initial scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "_layout.html" %}
+
+{% block title %}Create a trip{% endblock %}
+
+{% block content %}
+<section class="pad-tb min-h">
+    <div class="container">
+        <div class="row a-center">
+            <div class="col-md-6 text-center wow fadeIn">
+                <div class="mb-3">
+                    <img src="/assets/frontend/images/regimg.png" alt="Create new trip illustration">
+                </div>
+                <div class="title mbtm30 text-center">
+                    <h2 class="text-t-none">Add Trip Page</h2>
+                </div>
+                <div>
+                    <img src="/assets/frontend/images/revs.png" alt="Reviewers illustration">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="formBox wow fadeInUp">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title mbtm30 text-center">
+                                <h2 class="text-t-none text-left">Add a trip</h2>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12">
+                      <div class="para mbtm30">
+                            <p>Already have an account? <a href="login.php">Sign in</a></p>
+                      </div>
+                   </div> -->
+                    </div>
+                    <div>
+                        <form class="formField" action="/create-trip" method="POST">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="departure">Where Are You Travelling From?</label>
+                                        <div class="form-floating mb-3">
+                                            <select class="js-example-basic-single form-select" name="departure">
+                                                <option value="">Select Travelling From</option>
+                                            </select>
+                                            <!-- <select class="" id="countries2" name="departure" aria-label="Floating label select example" required> -->
+                                            <!-- <option selected value="new-york">Newyork, United States</option>
+                                        <option value="new-jersey">New Jersey, United States</option>
+                                        <option value="washington">Washington, United States</option>
+                                        <option value="los-angeles">Los Angeles, United States</option> -->
+                                            <!-- </select> -->
+                                            <!-- <label for="daperture">Where Are You Travelling From?</label> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="arrival">Where Are You Travelling To?</label>
+                                        <div class="form-floating mb-3">
+                                            <select class="js-example-basic-single-1 form-select" name="arrival"
+                                                required>
+                                                <option value="">Select Travelling To</option>
+                                            </select>
+
+                                            <!-- <label for="arrival">Where Are You Travelling To?</label> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" id="departure_date"
+                                                name="departure_date" placeholder="When Are You Travelling?" required>
+                                            <label for="departure_date">When Are You Travelling?</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="space" name="space"
+                                                placeholder="How Much Space Do You Have? (kg)" required>
+                                            <label for="space">How Much Space Do You Have? (kg)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-4">
+                                            <textarea class="form-control" placeholder="Leave a comment here"
+                                                id="description" name="description" rows="4" cols="50"></textarea>
+                                            <label for="floatingTextarea">Comments</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input" type="checkbox" id="FieldsetCheck">
+                                            <label class="form-check-label" for="FieldsetCheck" required>
+                                                I agree with the <a href="/terms-and-conditions">Terms & Conditions</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <!-- <a href="trip.php">                                        -->
+                                        <!-- </a> -->
+                                        <input type="submit" value="Submit">
+                                        <!-- <input type="button" value="Submit"> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('.js-example-basic-single, .js-example-basic-single-1').select2({
+            placeholder: 'Search for a city or country',
+            minimumInputLength: 2,
+            ajax: {
+                url: function(params) {
+                    return `https://secure.geonames.org/searchJSON?q=${params.term}&maxRows=20&username=notwld`;
+                },
+                delay: 250,
+                processResults: function (data) {
+                    // Transform the data into Select2 format
+                    return {
+                        results: data.geonames.map(item => {
+                            const locationText = `${item.name}, ${item.countryName}`;
+                            return {
+                                id: locationText,  // Use the location text as the value
+                                text: locationText // Use the same text for display
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+</script>
+{% endblock %}

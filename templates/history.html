@@ -1,0 +1,65 @@
+{% extends "_layout.html" %}
+{% block title %}
+History
+{% endblock %}
+{% block content %}
+<div class="container my-4" style="height: 50vh;">
+    <div class="mb-4">
+        <h1>History</h1>
+        <p>Here you can see the history of your deals.</p>
+    </div>
+    {% if orders %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Code</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Price</th>
+                <th>Other Party</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.uuid }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.attribute_type }}</td>
+                <td>
+                    <span
+                        class="badge bg-{{ 'success' if order.status == 'accepted' else 'warning' if order.status == 'pending' else 'danger' }}">
+                        {{ order.status }}
+                    </span>
+                </td>
+                <td>
+                    {% if order.trip %}
+                    From: {{ order.trip.traveling_from }}<br>
+                    To: {{ order.trip.traveling_to }}<br>
+                    Date: {{ order.trip.traveling_date }}
+                    {% elif order.order %}
+                    From: {{ order.order.order_from_location }}<br>
+                    To: {{ order.order.deliverer_location }}<br>
+                    Between: {{ order.order.earliest_date }} - {{ order.order.last_date }}
+                    {% endif %}
+                </td>
+                <td>${{ "%.2f"|format(order.total_price) }}</td>
+                <td>
+                    {% if current_user.id == order.initiator.id %}
+                    {{ order.recipient.name }} - {{ order.recipient.email }}
+                    {% else %}
+                    {{ order.initiator.name }} - {{ order.initiator.email }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">
+        No transaction history found.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,373 @@
+{% extends "admin/_layout.html" %}
+
+{% block content %}
+<div class="bg-white p-8 rounded-lg shadow-sm">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Secret Keys Management</h2>
+        <div class="flex gap-4">
+            <button data-modal-target="createKeyModal" data-modal-toggle="createKeyModal"
+                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200">
+                Add New Key
+            </button>
+        </div>
+    </div>
+    <div id="editKeyModal" tabindex="-1" aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <div class="flex items-start justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">Edit Secret Key</h3>
+                    <button type="button" data-modal-hide="editKeyModal"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <form id="editKeyForm" class="p-6">
+                    <input type="hidden" id="editKeyId">
+                    <div class="grid gap-4 mb-4">
+                        <div>
+                            <label for="editName" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                            <input type="text" id="editName" disabled
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                                required>
+                        </div>
+                        <div>
+                            <label for="editSlug" class="block mb-2 text-sm font-medium text-gray-900">Slug</label>
+                            <input type="text" id="editSlug" disabled
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                                required>
+                        </div>
+                        <div>
+                            <label for="editKey" class="block mb-2 text-sm font-medium text-gray-900">Key</label>
+                            <input type="text" id="editKey"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                                required>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end space-x-4">
+                        <button type="button" data-modal-hide="editKeyModal"
+                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
+                        <button type="submit"
+                            class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save
+                            Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Create Modal -->
+    <div id="createKeyModal" tabindex="-1" aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <div class="flex items-start justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">Create New Secret Key</h3>
+                    <button type="button" data-modal-hide="createKeyModal"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <form id="createKeyForm" class="p-6">
+                    <div class="grid gap-4 mb-4">
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                            <input type="text" id="name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                                required>
+                        </div>
+                        <div>
+                            <label for="slug" class="block mb-2 text-sm font-medium text-gray-900">Slug</label>
+                            <input type="text" id="slug"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                                required>
+                        </div>
+                        <div>
+                            <label for="key" class="block mb-2 text-sm font-medium text-gray-900">Key</label>
+                            <input type="text" id="key"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5"
+                                required>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end space-x-4">
+                        <button type="button" data-modal-hide="createKeyModal"
+                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
+                        <button type="submit"
+                            class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create
+                            Key</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed right-4 top-4 z-50 hidden">
+        <div class="max-w-xs bg-white border rounded-lg shadow-lg p-4">
+            <div class="flex items-center">
+                <div id="notificationIcon" class="flex-shrink-0">
+                    <!-- Icons will be injected by JS -->
+                </div>
+                <div class="ml-3">
+                    <p id="notificationMessage" class="text-sm font-medium"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">Name
+                    </th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">Slug
+                    </th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">Key
+                    </th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500 uppercase tracking-wider">Created
+                        At</th>
+                    <th class="px-6 py-4 text-right text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                        Actions</th>
+                </tr>
+            </thead>
+            <tbody id="keyTableBody" class="bg-white divide-y divide-gray-200">
+                {% for key in keys %}
+                <tr data-key-id="{{ key.id }}" class="key-row">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ key.name }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">{{ key.slug }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">{{ key.key }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">{{ key.created_at }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right space-x-3">
+                        <button data-modal-target="editKeyModal" data-modal-toggle="editKeyModal"
+                            onclick="editKey({{ key.id }})"
+                            class="text-red-600 hover:text-red-900 text-base font-medium">Edit</button>
+                        <button onclick="deleteKey({{ key.id }})"
+                            class="text-gray-600 hover:text-gray-900 text-base font-medium">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let keys = {{ keys| tojson | safe }};
+    async function editKey(keyId) {
+        try {
+            const key = keys.find(k => k.id === keyId);
+            if (!key) {
+                throw new Error('Key not found');
+            }
+
+            // Set values in the edit form
+            document.getElementById('editKeyId').value = key.id;
+            document.getElementById('editName').value = key.name;
+            document.getElementById('editSlug').value = key.slug;
+            document.getElementById('editKey').value = key.key;
+
+        } catch (error) {
+            console.error('Error in editKey:', error);
+            showNotification('Error loading key data', 'error');
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize modals
+        const closeButtons = document.querySelectorAll('[data-modal-hide="editKeyModal"]');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = new Modal(document.getElementById('editKeyModal'));
+                modal.hide();
+            });
+        });
+    });
+    // Handle edit form submission
+    document.getElementById('editKeyForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const keyId = document.getElementById('editKeyId').value;
+        const formData = {
+            name: document.getElementById('editName').value,
+            slug: document.getElementById('editSlug').value,
+            key: document.getElementById('editKey').value
+        };
+
+        try {
+            const response = await fetch(`/admin/update-key/${keyId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                const index = keys.findIndex(k => k.id === parseInt(keyId));
+                if (index !== -1) {
+                    keys[index] = result;
+                    const row = document.querySelector(`tr[data-key-id="${keyId}"]`);
+                    if (row) {
+                        row.replaceWith(createKeyRow(result));
+                    }
+                }
+
+                const modal = new Modal(document.getElementById('editKeyModal'));
+                modal.hide();
+
+                showNotification('Key updated successfully', 'success');
+                window.location.reload();
+            } else {
+                throw new Error(result.error || 'Failed to update key');
+            }
+        } catch (error) {
+            console.error('Error updating key:', error);
+            showNotification(error.message || 'Error updating key', 'error');
+        }
+    });
+
+    // Create key
+    document.getElementById('createKeyForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const formData = {
+            name: document.getElementById('name').value,
+            slug: document.getElementById('slug').value,
+            key: document.getElementById('key').value
+        };
+
+        try {
+            const response = await fetch('/admin/create-key', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                keys.push(result);
+                const tbody = document.getElementById('keyTableBody');
+                tbody.appendChild(createKeyRow(result));
+
+                const modal = new Modal(document.getElementById('createKeyModal'));
+                modal.hide();
+
+                // Reset form
+                document.getElementById('createKeyForm').reset();
+
+                showNotification('Key created successfully', 'success');
+                window.location.reload();
+            } else {
+                throw new Error(result.error || 'Failed to create key');
+            }
+        } catch (error) {
+            console.error('Error creating key:', error);
+            showNotification(error.message || 'Error creating key', 'error');
+        }
+    });
+
+    // Delete key
+    async function deleteKey(keyId) {
+        if (!confirm('Are you sure you want to delete this key? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/admin/delete-key/${keyId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                const row = document.querySelector(`tr[data-key-id="${keyId}"]`);
+                if (row) row.remove();
+                keys = keys.filter(key => key.id !== keyId);
+                showNotification('Key deleted successfully', 'success');
+                window.location.reload();
+            } else {
+                throw new Error('Failed to delete key');
+            }
+        } catch (error) {
+            showNotification('Error deleting key', 'error');
+        }
+    }
+
+    // Create key row
+    function createKeyRow(key) {
+        const tr = document.createElement('tr');
+        tr.className = 'key-row';
+        tr.dataset.keyId = key.id;
+
+        tr.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">${key.name}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">${key.slug}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">${key.key}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">${key.created_at}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right space-x-3">
+                <button data-modal-target="editKeyModal" data-modal-toggle="editKeyModal" onclick="editKey(${key.id})"
+                    class="text-red-600 hover:text-red-900 text-base font-medium">Edit</button>
+                <button onclick="deleteKey(${key.id})"
+                    class="text-gray-600 hover:text-gray-900 text-base font-medium">Delete</button>
+            </td>
+        `;
+
+        return tr;
+    }
+
+    // Show notification
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notificationMessage');
+        const notificationIcon = document.getElementById('notificationIcon');
+
+        notificationMessage.textContent = message;
+
+        const iconColor = type === 'success' ? 'text-green-500' : 'text-red-500';
+        notificationIcon.innerHTML = type === 'success'
+            ? `<svg class="h-6 w-6 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+               </svg>`
+            : `<svg class="h-6 w-6 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+               </svg>`;
+
+        notification.querySelector('div').className = `max-w-xs border rounded-lg shadow-lg p-4 ${type === 'success' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`;
+        notification.classList.remove('hidden');
+
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 3000);
+    }
+</script>
+{% endblock %}

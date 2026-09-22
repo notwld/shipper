@@ -1,0 +1,37 @@
+{% extends "_layout.html" %}
+
+{% block title %}Verify Email{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto mt-5 mb-5" style="height: 60vh;">
+
+    <h2 class="text-center text-2xl font-bold mb-4">Verify Your Email Address</h2>
+
+    <div class="rounded-lg p-6 text-center">
+        <p class="text-lg text-gray-600">
+            A verification link has been sent to your {{ user.email }}. Please check your inbox and click the link to
+            verify your account.
+        </p>
+
+        <p class="mt-4 text-gray-500">
+            Didn’t receive the email? We can resend it.
+        </p>
+
+        <!-- Resend Verification Email Form -->
+        <form method="POST" action="/resend-verification">
+            <button type="submit" class="btn btn-a">
+                Resend Verification Email
+            </button>
+        </form>
+
+        <!-- Logout Option -->
+        <a href="/logout">
+            <button type="submit" class="btn btn-secondary mt-4">
+                Log Out
+            </button>
+        </a>
+    </div>
+</div>
+</body>
+{% endblock %}

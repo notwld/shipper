@@ -1,0 +1,659 @@
+{% extends "_layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block style %}
+<style>
+    header {
+        display: none !important;
+    }
+
+    footer {
+        display: none !important;
+    }
+
+    .copyright {
+        display: none !important;
+    }
+
+    .traveler .avatar {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        position: relative;
+    }
+
+    .traveler .avatar img {
+        width: 80px;
+        height: 50px;
+        object-fit: contain;
+        border-radius: 100px;
+        margin-right: 15px;
+    }
+
+    .traveler .avatar .verified-badge img {
+        width: 20px;
+        object-fit: contain;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        margin: 0;
+        height: auto;
+    }
+
+    .verification-status {
+        padding: 1rem;
+        border-top: 2px solid #0000000f;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+
+<section class="userHeader" style="margin-top: 20px;">
+    <div class="container">
+        <div class="d-flex a-center">
+            <div>
+                <div class="htoggle">
+                    <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                        aria-controls="offcanvasExample"
+                        style="display: flex ;align-items: center;color: #2d2d2d;width: max-content;">
+                        <span style="margin-right: 7px;font-size: 18px;font-weight: 600;">View menu</span>
+                        <img src="/assets/frontend/images/hamburger.png" style="width:30px" alt="Hamburger Icon">
+                    </a>
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                        aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas-header">
+                            <div class="traveler">
+                                <div class="avatar">
+                                    <img style="width:30px" src="{% if user.profile_picture %}{{ url_for('static', filename='uploads/' + user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="">
+
+                                    {% if user.isAccountVerified == True %}
+                                    <div class="verified-badge">
+                                        <img src="/assets/frontend/images/verified.png" alt="Verified Badge">
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Hello, {{ user.first_name }} {{
+                                user.last_name }}!
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="verification-status">
+                           
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <p>
+                                    Your Membership is
+                                    {% if user.subscription_status == "inactive" %}
+                                    Not Active!
+                                    {% else %}
+                                    Active! <img
+                                        src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                        alt="Active Membership"
+                                        style="width: 20px; object-fit: contain; margin-left: 0px; margin-bottom: 5px;">
+                                    <br />
+                                    {% if membership_days_remaining %}
+                                    Membership expires in {{ membership_days_remaining }} days
+                                    {% endif %}
+                                    {% endif %}
+                                </p>
+                                {% if user.subscription_status == "inactive" %}
+                                <a href="{{ url_for('dashboard.membership')}}" class="btn-a">Apply for Membership</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div>
+                                <ul>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/profile">Profile</a></li>
+                                    <li><a href="/history">History</a></li>
+
+                                    <li><a href="/logout">Logout</a></li>
+                                    <li><a href="mailto:info@bemyshipper.com">Contact admin for assistance</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100">
+                <div class="text-center">
+                    <a href="./" class="logo">
+                        <img src="/assets/frontend/images/logo.png" alt="logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="userwelcome gray">
+    <div class="container">
+        <div class="title">
+            <h2>Welcome <span>{{ user.first_name }} {{ user.last_name }}</span>!</h2>
+        </div>
+        <div class="verification-status mt-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <p>
+                    Your Account is
+                    {% if user.badge_status == "inactive" %}
+                    Not Verified!
+                    {% else %}
+                    Verified! <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                        alt="Verified Badge"
+                        style="width: 20px; object-fit: contain; margin-left: 0px; margin-bottom: 5px;"> <br />
+                    {% if days_remaining %}
+                    Verification Badge expires in {{ days_remaining }} days
+                    {% endif %}
+                    {% endif %}
+                </p>
+                {% if user.badge_status == "inactive" %}
+                <button onclick="showVerificationModal()" class="btn-a">Verify Account</button>
+                {% else %}
+                <button onclick="cancelBadge()" class="btn-a" style="background-color: #dc3545;">Cancel Badge</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<div class="modal fade" id="verificationModal" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verificationModalLabel">Account Verification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center my-4">{{ badge_name }} - ${{ badge_price }}</h4>
+                <h5 class="my-3 mx-4">Benefits of verification:</h5>
+                <ul class="list-unstyled mx-4">
+                    <li class="mb-2">✓ Increased trust and credibility</li>
+                    <li class="mb-2">✓ Priority listing in search results</li>
+                    <li class="mb-2">✓ Verified badge displayed on your profile</li>
+                    <li class="mb-2">✓ Higher response rate from other users</li>
+                </ul>
+                <p class="mt-4 mx-4 text-muted">Your verification badge will be valid for 30 days from the date of
+                    purchase.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="startBadgeCheckout()">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="userbody pad-tb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="title mbtm30">
+                    <h2 style="font-size:28px;text-align:center">My <span>Orders</span></h2>
+                </div>
+                {% if orders %}
+                {% for order in orders %}
+                {% if order.status == 'active' %}
+                <a href="/order/{{ order.id }}">
+                    <div class="travelers">
+                        <div class="top">
+                            <div class="avatar" style="display: flex; align-items: center;">
+                                <img src="{% if order.user.profile_picture %}{{ url_for('static', filename='uploads/' + order.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="">
+                                <div class="name" style="display: flex; align-items: center; justify-content: center;">
+                                    <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
+                                    {% if order.user.badge_status == 'active' %}
+                                    <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                        alt="Verified Badge"
+                                        style="width: 20px; object-fit: contain; margin-left: 10px; margin-bottom: 5px;">
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <div class="luggage">
+                                <p>luggage capacity</p>
+                                <span>{{ order.weight }}kg</span>
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="">
+                        </div>
+                        <div class="bottom">
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Pickup location</p>
+                                    <h3>{{ order.deliverer_location }}</h3>
+                                    <p>{{ order.earliest_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="plane">
+                                <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="">
+                            </div>
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Destination</p>
+                                    <h3>{{ order.order_from_location }}</h3>
+                                    <p>{{ order.last_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <a href="/order/update-status/{{ order.id }}/inactive" class="btn-a">
+                                Mark as Inactive
+                            </a>
+                            </div>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <p class="text-center font-semibold">No Orders</p>
+                <div class="text-center mt-3">
+                    <a href="/create-order" class="align-items-center btn-a text-center">Create an order</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="title mbtm30">
+                    <h2 style="font-size:28px;text-align:center">My <span>Trips</span></h2>
+                </div>
+                {% if trips %}
+                {% for trip in trips %}
+                {% if trip.status == 'active' %}
+                <a href="/trip/{{ trip.id }}">
+
+                    <div class="travelers">
+
+                        <div class="top">
+                            <div class="avatar" style="display: flex; align-items: center;">
+                                <img src="{% if trip.user.profile_picture %}{{ url_for('static', filename='uploads/' + trip.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="">
+                                <div class="name" style="display: flex; align-items: center; justify-content: center;">
+                                    <h3>{{ trip.user.first_name }} {{ trip.user.last_name }}</h3>
+                                    {% if trip.user.badge_status == 'active' %}
+                                    <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                        alt="Verified Badge"
+                                        style="width: 20px; object-fit: contain; margin-left: 10px; margin-bottom: 5px;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="luggage">
+                                <p>luggage capacity</p>
+                                <span>{{ trip.weight }}kg</span>
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="">
+                        </div>
+                        <div class="bottom">
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Departure location</p>
+                                    <h3>{{ trip.traveling_from }}</h3>
+                                    <p>{{ trip.traveling_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="plane">
+                                <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="">
+                            </div>
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Destination</p>
+                                    <h3>{{ trip.traveling_to }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        {% if trip.user.id == current_user.id %}
+                        <div class="bottom">
+                            <a href="/trip/update-status/{{ trip.id }}/inactive" class="btn-a">
+                                Mark as Inactive
+                            </a>
+                            <button onclick="showEditTripModal({{ trip.id }}, '{{ trip.traveling_date.strftime('%Y-%m-%d') }}', {{ trip.weight }})" class="btn-a ms-2">
+                                Edit Trip
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <p class="text-center font-semibold">No Trips
+                </p>
+                <div class="text-center mt-3">
+                    <a href="/create-trip" class="align-items-center btn-a text-center">Create a trip</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 d-flex flex-column align-items-center" id="inbox">
+        <h1>
+            Inbox
+        </h1>
+        <!-- 'id': contact.id,
+            'user_id': user.id,
+            'name': f"{user.first_name} {user.last_name}",
+            'email': user.email,
+            'trip_id': contact.trip_id,
+            'badge_status': user.badge_status -->
+        <!-- <div class="container my-3 d-flex justify-content-between align-items-center px-3 py-4 w-100" style="background-color: white; border-radius: 20px;">
+            <h3>
+                john doe
+            </h3>
+            <a href="/inbox" class="btn-a">View Messages</a>
+        </div> -->
+        {% for contact in contacts %}
+        <div class="container my-3 d-flex justify-content-between align-items-center px-3 py-4 w-100"
+            style="background-color: white; border-radius: 20px;">
+            <div class="d-flex align-items-center">
+                <h3>{{ contact.name }}</h3>
+                {% if contact.badge_status == 'active' %}
+                <img src="{{ url_for('static', filename='frontend/images/verified.png') }}" alt="Verified Badge"
+                    style="width: 20px; object-fit: contain; margin-left: 10px;">
+                {% endif %}
+            </div>
+            <a href="/inbox/{{ contact.id }}" class="btn-a">View Messages</a>
+        </div>
+        {% endfor %}
+        {% if not contacts %}
+        <p class="text-center font-semibold my-2">No Messages Yet!</p>
+        {% endif %}
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="title mbtm30">
+                    <h2 style="font-size:28px;text-align:center">Inactive <span>Orders</span></h2>
+                </div>
+                {% if orders %}
+                {% for order in orders %}
+                {% if order.status == 'inactive' %}
+                <a href="/order/{{ order.id }}">
+                    <div class="travelers">
+                        <div class="top">
+                            <div class="avatar" style="display: flex; align-items: center;">
+                                <img src="{% if order.user.profile_picture %}{{ url_for('static', filename='uploads/' + order.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="">
+                                <div class="name" style="display: flex; align-items: center; justify-content: center;">
+                                    <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
+                                    {% if order.user.badge_status == 'active' %}
+                                    <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                        alt="Verified Badge"
+                                        style="width: 20px; object-fit: contain; margin-left: 10px; margin-bottom: 5px;">
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <div class="luggage">
+                                <p>luggage capacity</p>
+                                <span>{{ order.weight }}kg</span>
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="">
+                        </div>
+                        <div class="bottom">
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Pickup location</p>
+                                    <h3>{{ order.deliverer_location }}</h3>
+                                    <p>{{ order.earliest_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="plane">
+                                <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="">
+                            </div>
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Destination</p>
+                                    <h3>{{ order.order_from_location }}</h3>
+                                    <p>{{ order.last_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <a href="/order/update-status/{{ order.id }}/active" class="btn-a">
+                                Mark as Active
+                            </a>
+                        </div>
+
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <p class="text-center font-semibold">No Orders</p>
+                <div class="text-center mt-3">
+                    <a href="/create-order" class="align-items-center btn-a text-center">Create an order</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="title mbtm30">
+                    <h2 style="font-size:28px;text-align:center">Inactive <span>Trips</span></h2>
+                </div>
+                {% if trips %}
+                {% for trip in trips %}
+                {% if trip.status == 'inactive' %}
+                <a href="/trip/{{ trip.id }}">
+
+                    <div class="travelers">
+
+                        <div class="top">
+                            <div class="avatar" style="display: flex; align-items: center;">
+                                <img src="{% if trip.user.profile_picture %}{{ url_for('static', filename='uploads/' + trip.user.profile_picture) }}{% else %}{{ url_for('static', filename='frontend/images/avatar.png') }}{% endif %}" alt="">
+                                <div class="name" style="display: flex; align-items: center; justify-content: center;">
+                                    <h3>{{ trip.user.first_name }} {{ trip.user.last_name }}</h3>
+                                    {% if trip.user.badge_status == 'active' %}
+                                    <img src="{{ url_for('static', filename='frontend/images/verified.png') }}"
+                                        alt="Verified Badge"
+                                        style="width: 20px; object-fit: contain; margin-left: 10px; margin-bottom: 5px;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="luggage">
+                                <p>luggage capacity</p>
+                                <span>{{ trip.weight }}kg</span>
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <img src="{{ url_for('static', filename='frontend/images/arrow.png') }}" alt="">
+                        </div>
+                        <div class="bottom">
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Departure location</p>
+                                    <h3>{{ trip.traveling_from }}</h3>
+                                    <p>{{ trip.traveling_date.strftime('%B %d, %Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="plane">
+                                <img src="{{ url_for('static', filename='frontend/images/plane.png') }}" alt="">
+                            </div>
+                            <div class="txt">
+                                <div class="name">
+                                    <p>Destination</p>
+                                    <h3>{{ trip.traveling_to }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        {% if trip.user.id == current_user.id %}
+                        <div class="bottom">
+                            <a href="/trip/update-status/{{ trip.id }}/active" class="btn-a">
+                                Mark as Active
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <p class="text-center font-semibold">No Trips
+                </p>
+                <div class="text-center mt-3">
+                    <a href="/create-trip" class="align-items-center btn-a text-center">Create a trip</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="updateProfile" tabindex="-1" role="dialog" aria-labelledby="updateProfile"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body formBox">
+                <form class="formField" action="" method="POST">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="username" name="username"
+                                        placeholder="Username" required>
+                                    <label for="floatingInput">Username</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        placeholder="Phone Number" required>
+                                    <label for="floatingInput">Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating mb-3 show_hide_password" id="">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Change Password" required>
+                                    <a class="hideshow" href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                    <label for="floatingInput">Password</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <input type="submit" value="Update">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editTripModal" tabindex="-1" role="dialog" aria-labelledby="editTripModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTripModalLabel">Edit Trip Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="editTripForm">
+                    <input type="hidden" id="editTripId">
+                    <div class="mb-3">
+                        <label for="editTripDate" class="form-label">Travel Date</label>
+                        <input type="date" class="form-control" id="editTripDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTripWeight" class="form-label">Luggage Weight (kg)</label>
+                        <input type="number" class="form-control" id="editTripWeight" min="0" max="500" step="0.1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateTrip()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showVerificationModal() {
+        const verificationModal = new bootstrap.Modal(document.getElementById('verificationModal'));
+        verificationModal.show();
+    }
+    function startBadgeCheckout() {
+        fetch('/verify-badge-checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('Error creating checkout session');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error creating checkout session');
+            });
+    }
+    function cancelBadge() {
+        if (confirm('Are you sure you want to cancel your verification badge? This action cannot be undone.')) {
+            fetch('/cancel-badge', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert('Error canceling badge: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error canceling badge');
+                });
+        }
+    }
+    function showEditTripModal(tripId, travelDate, weight) {
+        document.getElementById('editTripId').value = tripId;
+        document.getElementById('editTripDate').value = travelDate;
+        document.getElementById('editTripWeight').value = weight;
+        const editTripModal = new bootstrap.Modal(document.getElementById('editTripModal'));
+        editTripModal.show();
+    }
+    function updateTrip() {
+        const tripId = document.getElementById('editTripId').value;
+        const travelDate = document.getElementById('editTripDate').value;
+        const weight = document.getElementById('editTripWeight').value;
+
+        fetch(`/trip/update/${tripId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                traveling_date: travelDate,
+                weight: weight
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error updating trip');
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,288 @@
+{% extends "_layout.html" %}
+
+{% block title %}Reviews | Be My Shipper – Trusted by Satisfied Customers{% endblock %}
+{% block description %}See what our happy customers say about Be My Shipper. Read real reviews from people who trust us for affordable, safe, and fast global shipping.{% endblock %}
+{% block style %}
+<style>
+    .about-section {
+        padding: 80px 0;
+    }
+
+    .about-header {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .about-header li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .about-header i {
+        margin-right: 10px;
+    }
+
+    i {
+        color: #777;
+    }
+
+    .formBox {
+        padding: 10% 5% 5% 5%;
+        border-radius: 0;
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .card {
+        position: relative;
+        transition: all 300ms ease;
+        text-align: center;
+    }
+
+    .icon-box {
+        background-color: red;
+        position: relative;
+        width: 65px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: absolute;
+        left: calc(50% - 30px);
+        top: -30px;
+        transition: all 300ms ease;
+        transform-style: preserve-3d;
+    }
+
+    .icon {
+        color: white;
+        height: 32px;
+        width: 44px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        transition: all 300ms ease;
+    }
+
+    .icon-quote {
+        background-image: url(/assets/frontend/images/icon-quote.png);
+    }
+
+    /* Hover effect applied to the entire card */
+    .card:hover {
+        background-color: black;
+        /* Change card background color */
+    }
+
+    .card:hover .icon-box {
+        background-color: black;
+        /* Change the icon-box background color */
+        transform: rotateY(180deg);
+        /* Flip the icon-box */
+    }
+
+    .card:hover .icon {
+        color: black;
+        /* Change icon color */
+        transform: rotateY(180deg);
+        /* Flip the icon itself */
+    }
+
+    .card-content {
+        padding-left: 10px;
+        padding-right: 10px;
+        min-height: 300px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h1 class="text-center wow fadeInUp" style="padding: 7%; font-size: 70px; height: 300px">Testimonials</h1>
+<section class="pad-tb" style="background-color: #F0F0F0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 my-5 test-col">
+                <!-- First Section -->
+                <div style="background-color: #f3f4f7; padding-bottom: 1px" class="card">
+                    <div class="icon-box">
+                        <span class="icon icon-quote"></span>
+                    </div>
+                    <div style="background-color: #e3e4e7" class="card-content py-5 text-center">
+                        <h5>Seamless Logistics Solutions</h5>
+                        <!-- Full star -->
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <p style="font-size: 18px" class="px-3 pt-3">BeMyShipper simplified our shipping process,
+                            allowing us to scale quickly without the usual hassles. Highly recommended!</p>
+                    </div>
+                    <div class="d-flex align-items-center m-4">
+                        <img src="/assets/frontend/images/circlecircle.png" class="rounded-circle w-25" alt="Sarah Matthews">
+                        <div class="ms-3 text-left">
+                            <h5>Sarah Matthews</h5>
+                            <h6 style="color: red">Founder of QuickShip</h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 my-5">
+                <!-- First Section -->
+                <div style="background-color: #f3f4f7; padding-bottom: 1px" class="card">
+                    <div class="icon-box">
+                        <span class="icon icon-quote"></span>
+                    </div>
+                    <div style="background-color: #e3e4e7" class="card-content py-5 text-center">
+                        <h5>Reliable and Efficient Service</h5>
+                        <!-- Full star -->
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <p style="font-size: 18px" class="px-3 pt-3">The team at BeMyShipper made managing our
+                            deliveries a breeze. Their platform is intuitive and saves us so much time!</p>
+                    </div>
+                    <div class="d-flex align-items-center m-4">
+                        <img src="/assets/frontend/images/circlecircle.png" class="rounded-circle w-25" alt="David Lee">
+                        <div class="ms-3 text-left">
+                            <h5>David Lee</h5>
+                            <h6 style="color: red">Operations Manager at UrbanGoods</h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-4 my-5">
+                <!-- First Section -->
+                <div style="background-color: #f3f4f7; padding-bottom: 1px" class="card">
+                    <div class="icon-box">
+                        <span class="icon icon-quote"></span>
+                    </div>
+                    <div style="background-color: #e3e4e7" class="card-content py-5 text-center">
+                        <h5>A Game Changer for E-commerce</h5>
+                        <!-- Full star -->
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <p style="font-size: 18px" class="px-3 pt-3">With BeMyShipper, we can focus on growth while they
+                            handle the logistics. Fantastic service!</p>
+                    </div>
+                    <div class="d-flex align-items-center m-4">
+                        <img src="/assets/frontend/images/circlecircle.png" class="rounded-circle w-25" alt="Emily White">
+                        <div class="ms-3 text-left">
+                            <h4>Emily White</h4>
+                            <h6 style="color: red">COO at Trendify</h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="row my-5">
+            <div class="col-md-4 my-5">
+                <!-- First Section -->
+                <div style="background-color: #f3f4f7; padding-bottom: 1px" class="card">
+                    <div class="icon-box">
+                        <span class="icon icon-quote"></span>
+                    </div>
+                    <div style="background-color: #e3e4e7" class="card-content py-5 text-center">
+                        <h5>Effortless Shipping Management</h5>
+                        <!-- Full star -->
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <p style="font-size: 18px" class="px-3 pt-3">We've tried many services, but BeMyShipper stands
+                            out for its consistency and ease of use.</p>
+                    </div>
+                    <div class="d-flex align-items-center m-4">
+                        <img src="/assets/frontend/images/circlecircle.png" class="rounded-circle w-25" alt="Mark Johnson">
+                        <div class="ms-3 text-left">
+                            <h5>Mark Johnson</h5>
+                            <h6 style="color: red">CEO of HomeEssentials</h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 my-5">
+                <!-- First Section -->
+                <div style="background-color: #f3f4f7; padding-bottom: 1px" class="card">
+                    <div class="icon-box">
+                        <span class="icon icon-quote"></span>
+                    </div>
+                    <div style="background-color: #e3e4e7" class="card-content py-5 text-center">
+                        <h5>Transforming Our Shipping Process</h5>
+                        <!-- Full star -->
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <p style="font-size: 18px" class="px-3 pt-3">BeMyShipper gave us the confidence to expand
+                            internationally, offering excellent support and reliable shipping solutions.</p>
+                    </div>
+                    <div class="d-flex align-items-center m-4">
+                        <img src="/assets/frontend/images/circlecircle.png" class="rounded-circle w-25" alt="John Paul">
+                        <div class="ms-3 text-left">
+                            <h5>John Paul</h5>
+                            <h6 style="color: red">CEO, Transfox</h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-4 my-5">
+                <!-- First Section -->
+                <div style="background-color: #f3f4f7; padding-bottom: 1px" class="card">
+                    <div class="icon-box">
+                        <span class="icon icon-quote"></span>
+                    </div>
+                    <div style="background-color: #e3e4e7" class="card-content py-5 text-center">
+                        <h5>Expert Logistics Support</h5>
+                        <!-- Full star -->
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <p style="font-size: 18px" class="px-3 pt-3">Everything we need to start selling globally is
+                            handled effortlessly by BeMyShipper. It's a true business partner!</p>
+                    </div>
+                    <div class="d-flex align-items-center m-4">
+                        <img src="/assets/frontend/images/circlecircle.png" class="rounded-circle w-25" alt="Lisa Tan">
+                        <div class="ms-3 text-left">
+                            <h5>Lisa Tan</h5>
+                            <h6 style="color: red">Founder of FreshFinds</h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+{% endblock %}
